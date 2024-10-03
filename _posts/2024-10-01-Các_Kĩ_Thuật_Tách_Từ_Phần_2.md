@@ -711,70 +711,698 @@ tokenizer.convert_ids_to_tokens(flat_arr)
   
 ## 3. Thuật toán tách token WordPiece.
 
-- Thuật toán WordPiece là một thuật toán chia nhỏ từ vựng thành các subword để giúp xử lý các từ chưa từng gặp và làm giảm kích thước từ vựng cần lưu trữ trong các mô hình ngôn ngữ. WordPiece nhằm mục tiêu tạo ra một tập từ vựng hiệu quả, có thể chia nhỏ từ thành các đơn vị con gọi là subword. Nó giúp mô hình ngôn ngữ xử lý được các từ không có trong từ vựng (OOV - out-of-vocabulary) bằng cách chia chúng thành các phần nhỏ hơn có thể dự đoán được từ ngữ liệu huấn luyện.
+- Chúng ta sẽ cùng nghiên cứu một thuật toán có tên WordPiece. Một mô hình rất nổi tiếng dùng thuật toán này đó chính là **BERT** - [Bidirectional Encoder Representations from Transformers](https://arxiv.org/pdf/1810.04805).
+- Tách từ thành các ký tự:
+  - Ví dụ trong mô hình Bert, một từ "ProtonX" sẽ được tách thành các ký tự và thêm ## vào phía trước:
+  > ProtonX
+  - Sau khi tách sẽ trở thành:
+  > P ##r ##o ##t ##o ##n ##X
+  - Lưu ý: Chỉ riêng từ ở đầu là không thêm "##"
+- Điểm khác biệt với thuật toán BPE:
+  - Thuật toán BPE đếm số cặp hai token xuất hiện liền nhau và lưu token hợp của chúng vào trong từ điển. Thuật toán WordPiece cũng đếm tuy nhiên thay vì chỉ lựa chọn cặp token xuất hiện nhiều nhất, thuật toán này sẽ thêm yếu tố tần suất của từng ký tự trong cặp này.
 
-- Thuật toán WordPiece:
-  - Chuẩn bị Dữ liệu:
-      - Thuật toán bắt đầu bằng việc thu thập dữ liệu văn bản lớn và xử lý trước văn bản này để có được danh sách các từ. Mỗi từ sẽ được coi là một chuỗi ký tự ban đầu.
-  - Xây dựng Từ vựng Ban đầu:
-      - Ban đầu, từ vựng chỉ bao gồm các ký tự đơn lẻ từ tập dữ liệu (ví dụ, a, b, c, …).
-      - Từ điển này cũng có thể chứa một số từ phổ biến đã xuất hiện nguyên vẹn trong dữ liệu huấn luyện (nếu có). Nhưng nói chung, phần lớn là các ký tự ban đầu.
-  - Thuật toán Huấn luyện:
-      - Bước 1: Đếm tần suất cặp token (bi-gram):
-          - Với mỗi từ trong tập dữ liệu huấn luyện, thuật toán bắt đầu bằng cách chia nó thành các token nhỏ nhất có thể (ban đầu là ký tự đơn lẻ). Ví dụ: từ banana sẽ được chia thành ['b', 'a', 'n', 'a', 'n', 'a'].
-          Thuật toán sau đó sẽ đếm tần suất xuất hiện của từng cặp token liền kề (bi-gram). Ví dụ: từ banana sẽ tạo ra các bi-gram: ['b', 'a'], ['a', 'n'], ['n', 'a'], ['a', 'n'], ['n', 'a'].
-      - Bước 2: Chọn bi-gram phổ biến nhất:
+  - Công thức sẽ như sau:
 
-          - Thuật toán sẽ chọn bi-gram có tần suất xuất hiện cao nhất trong toàn bộ tập dữ liệu. Đây là cặp token phổ biến nhất.
-          - Ví dụ: nếu bi-gram ['n', 'a'] xuất hiện nhiều nhất, thuật toán sẽ hợp nhất chúng thành một token mới ['na'].
-      - Bước 3: Cập nhật từ vựng:
+    - Điểm (score) = (Số lần xuất hiện của cặp token) / (Số lần xuất hiện của token 1 x Số lần xuất hiện của token 2)
 
-          - Sau khi hợp nhất bi-gram phổ biến nhất thành một token, từ vựng sẽ được cập nhật để bao gồm token mới này. Token mới này sẽ thay thế các cặp token ban đầu trong văn bản.
-          - Ví dụ: sau khi hợp nhất ['n', 'a'], từ banana sẽ được chia thành ['b', 'a', 'na', 'na'].
-      - Bước 4: Lặp lại quá trình:
+  - Các cặp token có điểm càng cao sẽ ưu tiên hợp (merge) trước.
 
-          - Thuật toán tiếp tục quá trình này, đếm lại tần suất của các bi-gram mới và hợp nhất cặp token phổ biến nhất vào từ vựng.
-          - Quá trình lặp lại này tiếp diễn cho đến khi đạt đến kích thước từ vựng mong muốn hoặc khi không còn bi-gram nào có tần suất đủ cao để hợp nhất nữa.
-  - Xử lý Từ Mới trong Tokenization:
-      - Khi từ vựng đã được học xong, trong quá trình sử dụng (inference), nếu một từ mới (chưa có trong từ vựng) xuất hiện, thuật toán sẽ chia từ này thành các subword đã có trong từ vựng.
-      - Ví dụ: nếu từ "happiness" không có trong từ vựng đầy đủ, thuật toán có thể chia nó thành ['happy', '##ness'], trong đó ## là tiền tố cho biết đây là phần tiếp theo của một từ lớn hơn.
-  - Tiền xử lý với Subword:
-      - Một khi từ đã được chia thành các subword, các subword này sẽ được đưa vào mô hình để huấn luyện hoặc suy luận (inference). Mô hình sẽ học cách xử lý các phần từ (subword) thay vì toàn bộ từ, giúp giảm vấn đề từ mới chưa gặp phải trong quá trình huấn luyện.
+  - Ý nghĩa của việc này là gì nhỉ ? Khi nhìn vào công thức chúng ta sẽ thấy nếu chúng ta có hai cặp token:
 
-### Sự khác biệt giữa WordPiece và BPE:
-- Cách chọn cặp token để hợp nhất:
-    - BPE: BPE chọn cặp token phổ biến nhất (về số lần xuất hiện trong văn bản) để hợp nhất mà không quan tâm đến tần suất xuất hiện của token hợp nhất trong từ vựng. Mỗi lần hợp nhất, BPE đơn giản chỉ chọn cặp token liền kề xuất hiện nhiều nhất trong tập dữ liệu và hợp nhất chúng.
+    >"g ##a"
 
-    - Ví dụ: Nếu cặp ký tự "e" và "r" xuất hiện cùng nhau nhiều nhất, BPE sẽ hợp nhất chúng thành "er", bất kể "er" có mang nghĩa trong từ điển hay không.
+    >Cặp 2: "g #ấu"
 
-    - WordPiece: WordPiece không chỉ dựa trên tần suất xuất hiện của cặp token mà còn xem xét xác suất điều kiện của token hợp nhất mới. Nó chọn cặp token sao cho việc hợp nhất chúng sẽ tạo ra một token mới có khả năng giải thích tốt nhất dữ liệu. Điều này có nghĩa là WordPiece sử dụng phương pháp tối ưu hóa dựa trên mô hình xác suất (hoặc tần suất điều kiện) để quyết định cặp nào nên được hợp nhất.
+  - Nếu số lượng xuất hiện của cả hai cặp này tuơng đương nhau, bộ học token (Token learner) sẽ ưu tiên cặp "g ##ấu" hơn vì token "##ấu" trong cặp này sẽ xuất hiện ít hơn nhiều so với token "##a" trong cặp "g ##a". Cả hai cặp token cùng chung token đầu "g".
 
-    - Ví dụ: WordPiece sẽ chỉ hợp nhất "un" và "happy" thành "unhappy" nếu điều này giúp mô hình hiểu rõ hơn về cấu trúc từ, thay vì chỉ dựa trên tần suất.
-- Mục tiêu tối ưu hóa:
-    - BPE: Mục tiêu của BPE là hợp nhất các cặp token phổ biến nhất để giảm số lượng token tổng thể. Nó không quan tâm đến ý nghĩa ngữ nghĩa hay tần suất của các token mới trong từ vựng.
-    - WordPiece: WordPiece tập trung vào việc tìm ra các token có ý nghĩa ngữ nghĩa cao hơn thông qua tối ưu hóa xác suất điều kiện của các cặp token. Mục tiêu của nó là xây dựng một từ vựng subword tốt nhất dựa trên sự tối ưu hóa ngữ nghĩa hơn là chỉ đơn giản giảm số lượng token.
-- Cấu trúc từ vựng:
-    - BPE: Từ vựng của BPE được xây dựng hoàn toàn dựa trên tần suất cặp token trong tập dữ liệu, không quan tâm nhiều đến ý nghĩa hay sự liên quan giữa các token. Do đó, nó thường có thể sinh ra những token không có ý nghĩa về mặt ngữ nghĩa nhưng lại phổ biến.
-
-    - WordPiece: Từ vựng của WordPiece được xây dựng không chỉ dựa vào tần suất mà còn dựa vào các yếu tố ngữ nghĩa. Điều này giúp từ vựng WordPiece có tính liên kết ngữ nghĩa tốt hơn so với BPE.
-
-- Cách hợp nhất:
-    - BPE: Cứ mỗi vòng lặp, BPE hợp nhất cặp bi-gram phổ biến nhất (dựa trên tần suất), bất kể mức độ "hữu ích" của cặp đó. Điều này có thể dẫn đến sự hợp nhất của các token có tần suất cao nhưng không mang nhiều thông tin ngữ nghĩa.
-
-    - WordPiece: Trong WordPiece, quá trình hợp nhất được thực hiện dựa trên sự đánh giá xác suất của việc hợp nhất đó mang lại lợi ích cho mô hình. Điều này làm cho quá trình hợp nhất trong WordPiece được tối ưu hóa hơn so với BPE.
-
-- Ứng dụng thực tế:
-    - BPE: BPE được sử dụng trong các mô hình như GPT và các mô hình liên quan đến OpenAI. BPE có tốc độ xử lý nhanh hơn so với WordPiece vì thuật toán đơn giản hơn, chỉ cần dựa trên tần suất bi-gram.
-
-  - WordPiece: WordPiece được sử dụng trong các mô hình như BERT và một số mô hình ngôn ngữ khác do Google phát triển. WordPiece có xu hướng tạo ra từ vựng tốt hơn về mặt ngữ nghĩa, giúp mô hình học các biểu diễn ngữ nghĩa sâu hơn.
-
-- Ví dụ minh họa sự khác biệt. Giả sử chúng ta có từ happiness và từ unhappiness:
-
-    - BPE: BPE có thể hợp nhất từng cặp ký tự dựa trên tần suất, chẳng hạn nó có thể hợp nhất h, a, p, p, i, n, e, s, s thành một số subword như hap, pi, ness, mà không quan tâm đến sự liên kết ngữ nghĩa giữa các phần của từ.
-
-    - WordPiece: WordPiece sẽ ưu tiên hợp nhất các token có khả năng xuất hiện cùng nhau để tạo ra các phần từ có ý nghĩa hơn như un, happy, ness. Điều này giúp mô hình hiểu rõ hơn về ngữ nghĩa của từ và cải thiện khả năng tổng quát hóa. 
+  - Thậm chí cặp 1 cũng không cần hợp vì đơn giản là hai token xuất hiện rất nhiều trong bộ từ điển.
   
-- Giờ hãy thử sử dụng thuật toán WordPiece thông qua thư viện HuggingFace. Đầu tiên, chúng ta se tải vocab của mô hình BERT:
+### Thuật toán 
+
+- Sau đây, chúng ta sẽ đi đến thuật toán chính của WordPiece, giờ hãy lấy một ví dụ đơn giản, giả sử dữ liệu ban đầu của ta là:
+
+> ga ga ga ga ga 
+ 
+> gấu gấu gấu gấu gấu gấu
+
+> gan gan gan gan gan gan gan gan
+
+> gấm gấm gấm gấm gấm gấm gấm
+
+> ha ha ha
+
+- Chúng ta sẽ có tập từ điển sau:
+
+> '##a', '##m', '##n', '##u', '##ấ', 'g', 'h'
+
+- Trong ngữ liệu này:
+
+  - Token "g" xuất hiện 5 + 6 + 7 + 8 = 26 lần
+
+  - Token "##a" xuất hiện 5 + 8 + 3 = 16 lần
+
+  - Token "##ấ" xuất hiện 6 + 7 = 13 lần
+
+  - Cặp token "g ##a" xuất hiện 5 + 8 = 13 lần
+
+  - Cặp token "g ##ấ" xuất hiện 6 + 7 = 13 lần
+
+- Điểm của cặp "g ##a" = (Số lần xuất hiện của cặp "g ##a") / (Số lần xuất hiện của token "g" x Số lần xuất hiện của token "##a") = 13 / (26 x 16) = 0.03125
+
+- Điểm của cặp "g ##ấ" = (Số lần xuất hiện của cặp "g ##ấ") / (Số lần xuất hiện của token "g" x Số lần xuất hiện của token "##ấ") = 13 / (26 x 13) = 0.0385
+
+- Trong trường hợp này điểm của cặp "g ##ấ" lớn hơn nên sẽ ưu tiên hợp cặp này vào từ điển hơn.
+
+- Chúng ta sẽ nói qua về cách hợp của WordPiece:
+  - Nếu ta hợp "g" và "##ấ" ta sẽ bỏ "##" trước "##ấ" ta sẽ có "gấ".
+  - Nếu ta hợp "##ấ" và "##m" ta sẽ bỏ "##" trước "##m" ta sẽ có "##ấm".
+  - Sau đó token hợp này sẽ được thêm vào từ điển.
+
+- Chúng ta sẽ di đến một ví dụ phức tạp hơn để hiểu rõ về cách hoạt động của WordPiece, giờ giả sử dữ liệu của chúng ta gồm hai câu:
+
+> "ProtonX là một công ty AI",
+
+> "ProtonX là một nơi ươm mầm tài năng AI"
+
+- Bộ đếm:
+  
+> 'ProtonX': 2,
+
+> 'là': 2,
+
+> 'một': 2,
+
+> 'công': 1,
+
+> 'ty': 1,
+
+> 'AI': 2,
+
+> 'nơi': 1,
+
+> 'ươm': 1,
+
+> 'mầm': 1,
+
+> 'tài': 1,
+
+> 'năng': 1
+
+- Những ký tự đứng đầu câu thì không thêm '##'.
+
+- Những ký tự đứng sau ký tự đầu đều thêm '##' vào phía trước.
+
+Ví dụ với từ "ProtonX" ta có kết quả như sau:
+
+>'ProtonX': ['P', '##r', '##o', '##t', '##o', '##n', '##X']
+
+Kết quả ta có trên cả hai câu như sau:
+
+> ['##I', '##X', '##g', '##i', '##m', '##n', '##o', '##r', '##t', '##y', '##à', '##ô', '##ă', '##ơ', '##ầ', '##ộ', 'A', 'P', 'c', 'l', 'm', 'n', 't', 'ư']
+
+- Ta bắt đầu đi tính điểm cho các cặp token cạnh nhau trong cách từ:
+
+>('P', '##r'): 0.5
+
+>('##r', '##o'): 0.25
+
+>('##o', '##t'): 0.125
+
+>('##t', '##o'): 0.125
+
+>('##o', '##n'): 0.125
+
+>('##n', '##X'): 0.25
+
+>('l', '##à'): 0.3333333333333333
+
+>('m', '##ộ'): 0.3333333333333333
+
+>('##ộ', '##t'): 0.25
+
+>('c', '##ô'): 1.0
+
+>('##ô', '##n'): 0.25
+
+>('##n', '##g'): 0.25
+
+>('t', '##y'): 0.5
+
+>('A', '##I'): 0.5
+
+>('n', '##ơ'): 0.25
+
+>('##ơ', '##i'): 0.25
+
+>('ư', '##ơ'): 0.5
+
+>('##ơ', '##m'): 0.25
+
+>('m', '##ầ'): 0.3333333333333333
+
+>('##ầ', '##m'): 0.5
+
+>('t', '##à'): 0.16666666666666666
+
+>('##à', '##i'): 0.16666666666666666
+
+>('n', '##ă'): 0.5
+
+>('##ă', '##n'): 0.25
+
+- Cặp token:
+
+> ('c', '##ô'): 1.0
+
+- Có điểm cao nhất hơn hẳn cặp ('A', '##I') mặc dù cặp AI xuất hiện hai lần trong ngữ liệu nhưng chỉ có điểm là (2) / (2 x 2) = 0.5.
+
+- Điểm thấp nhất là 3 cặp:
+
+> ('##o', '##t'): 0.125
+> ('##t', '##o'): 0.125
+> ('##o', '##n'): 0.125
+
+- Ví dụ cặp ('##o', '##t') có điểm (2) / (4 x 4) = 0.125. Cặp ('c', '##ô') được hợp thành "cô" và thêm vào từ điển. Từ "công" sẽ được biểu diễn như sau sau lần hợp này:
+
+> 'công': ['cô', '##n', '##g']
+
+- Sau một số lượng vòng lặp cài đặt sẵn ta sẽ thu được bộ từ điển sau:
+
+> ['##I', '##X', '##g', '##i', '##m', '##n', '##o', '##r', '##t', '##y', '##à', '##ô', '##ă', '##ơ', '##ầ', '##ộ', 'A', 'P', 'c', 'l', 'm', 'n', 't', 'ư', 'cô', 'Pr', 'ty', 'AI', 'ươ', 'nơ', 'nă', 'nơi', 'ươm', '##ầm', 'là', 'tà', 'tài', 'mộ', 'mầm', 'Pro', 'Prot', 'Proto', 'một', 'Proton', 'ProtonX', 'côn', 'năn', 'công', 'năng'] 
+
+###  Quá trình mã hóa (encode)
+
+- Với bộ từ điển trên thì với đầu vào câu:
+
+> "Thả tym cho ProtonX nào"
+
+- sau khi tách token sẽ có kết quả là:
+
+> ['[UNK]', 'ty', '##m', '[UNK]', 'ProtonX', 'n', '##à', '##o']
+
+- Từ "Thả" tính từ đầu (cố định vị trí đầu) đến cuối không chứa bất kỳ từ con (subword) nào nằm bên trong từ điển nên sẽ được kết luận là từ không biết với token "[UNK]".
+
+- Cách lặp:
+
+    - "T" không nằm trong từ điển
+
+    - "Th" không nằm trong từ điển
+
+    - "Thả" không nằm trong từ điển
+
+- Cho nên kết luận "Thả" là "[UNK]"
+
+- Từ "tym" được tách thành token "ty" và "##m"
+
+    - Từ đầu đến "y" từ "ty" là một token nằm trong từ điển. Tiến hành tách khỏi từ ban đầu ra thành "ty" và phần còn lại là "m". Thêm "##" vào "m" thành "##m" và tiếp tục tách.
+
+    - "##m" nằm trong từ điển và tách thành chính nó.
+- Vậy cách mã hóa ở đây sẽ là gì ?
+  - Chúng ta sẽ đặt mốc cố định là đầu chuỗi, tìm xem từ đầu đến vị trí nào chứa token dài nhất trong vocab thì ta bắt đầu tách token. Phần đằng sau sẽ thêm "##" vào phía trước.
+
+  - Tiếp tục tách phần sau.
+
+  - Trường hợp nào từ đầu đến đuôi của phần chuỗi đang làm việc không hề nằm trong từ điển, trả về token [UNK]
+
+## 4. Lập trình thuật toán WordPiece
+
+- Chúng ta sẽ thử lập trình thuật toán WordPiece từ đầu, trước tiên chúng ta sẽ tạo corpus như sau:
+  
+```python
+from collections import defaultdict
+corpus = ["ga"] * 5 + ["gấu"] * 6 + ["gan"] * 8 + ["gấm"] * 7 + ["ha"] * 3
+```
+- Tiếp theo chúng ta sẽ đếm tần suất xuất hiện các từ trong câu:
+
+```python
+# Khởi tạo từ điển
+word_freqs = defaultdict(int)
+
+# Lặp qua ngữ liệu
+for word in corpus:
+    # Đếm từ
+    word_freqs[word] += 1
+
+print(word_freqs)
+```
+> defaultdict(int, {'ga': 5, 'gấu': 6, 'gan': 8, 'gấm': 7, 'ha': 3})
+
+- Tiếp theo chúng ta sẽ tạo Splits cho từng từ:
+
+```python
+def generate_splits(word_freqs):
+    """
+    Tạo các splits cho mỗi từ trong dictionary word_freqs.
+
+    Mỗi từ được chia thành các ký tự riêng lẻ, trong đó ký tự đầu tiên được giữ nguyên 
+    và các ký tự tiếp theo được thêm tiền tố '##'.
+
+    Ví dụ:
+    Giả sử`word_freqs = {'cat': 5, 'dog': 3}
+
+    Kết quả sẽ là:
+    {
+        'cat': ['c', '##a', '##t'],
+        'dog': ['d', '##o', '##g']
+    }
+
+    Tham số:
+        word_freqs (dict): Một dictionary với các từ là key và tần suất của chúng là value.
+
+    Trả về:
+        dict: Một dictionary với các từ là key và danh sách các split là value.
+    """
+    splits = {}
+
+    # Lặp qua các từ trong word_freqs
+    for word in word_freqs:
+        # Chia từ thành các splits
+        split_list = [word[0]] + [f"##{char}" for char in word[1:]]
+        splits[word] = split_list
+
+    return splits
+splits = generate_splits(word_freqs)
+print(splits)
+
+```
+>{'ga': ['g', '##a'],
+
+>'gấu': ['g', '##ấ', '##u'],
+
+>'gan': ['g', '##a', '##n'],
+
+>'gấm': ['g', '##ấ', '##m'],
+
+>'ha': ['h', '##a']}
+
+- Chúng ta sẽ đếm số lượng ký tự trong ngữ liệu:
+  
+```python
+from collections import defaultdict
+
+def compute_letter_frequencies(splits, word_freqs):
+    """
+    Tính tần suất xuất hiện của các ký tự dựa trên các splits đã cho và tần suất từ.
+
+    Ví dụ:
+    Giả sử:
+    splits = {
+        'cat': ['c', '##a', '##t'],
+        'dog': ['d', '##o', '##g']
+    }
+
+    word_freqs = {
+        'cat': 5,
+        'dog': 3
+    }
+
+    Kết quả sẽ là:
+    {
+        'c': 5,
+        '##a': 5,
+        '##t': 5,
+        'd': 3,
+        '##o': 3,
+        '##g': 3
+    }
+
+    Tham số:
+        splits (dict): Dictionary chứa các từ và danh sách các ký tự đã được split.
+        word_freqs (dict): Dictionary chứa các từ và tần suất tương ứng của chúng.
+
+    Trả về:
+        defaultdict(int): Một dictionary với các ký tự là key và tần suất của chúng là value.
+    """
+    letter_freqs = defaultdict(int)
+
+    # Lặp qua các từ và lấy tần suất
+    for word, freq in word_freqs.items():
+        # Lấy danh sách các splits cho mỗi từ
+        split = splits[word]
+        
+        # Đếm số lần xuất hiện của các ký tự này
+        for letter in split:
+            letter_freqs[letter] += freq
+
+    return letter_freqs
+
+# Ví dụ chạy hàm
+letter_freqs = compute_letter_frequencies(splits, word_freqs)
+print(letter_freqs)
+
+```
+>defaultdict(int,
+            {'g': 26,
+             '##a': 16,
+             '##ấ': 13,
+             '##u': 6,
+             '##n': 8,
+             '##m': 7,
+             'h': 3})
+            
+- Chúng ta sẽ tính tần suất xuất hiện của các cặp ký tự dựa trên các splits đã cho:
+  
+```python
+
+def compute_pair_frequencies(splits, word_freqs):
+    """
+    Tính tần suất xuất hiện của các cặp ký tự dựa trên các splits đã cho và tần suất từ.
+
+    Ví dụ:
+    Giả sử:
+    splits = {
+        'cat': ['c', '#a', '#t'],
+        'dog': ['d', '#o', '#g']
+    }
+
+    word_freqs = {
+        'cat': 5,
+        'dog': 3
+    }
+
+    Kết quả sẽ là:
+    {
+        ('c', '#a'): 5,
+        ('#a', '#t'): 5,
+        ('d', '#o'): 3,
+        ('#o', '#g'): 3
+    }
+
+    Tham số:
+    splits (dict): Dictionary chứa các từ và danh sách các ký tự đã được split.
+    word_freqs (dict): Dictionary chứa các từ và tần suất tương ứng của chúng.
+
+    Trả về:
+    defaultdict(int): Một dictionary với các cặp ký tự là key và tần suất của chúng là value.
+    """
+    pair_freqs = defaultdict(int)  # Tạo dictionary mặc định với giá trị là số nguyên
+
+    # Lặp qua các phần tử của word_freqs
+    for word, freq in word_freqs.items():
+        # Lấy splits của từ hiện tại
+        split = splits.get(word, [])
+        
+        # Kiểm tra nếu splits chứa nhiều hơn 1 phần tử thì mới tính cặp ký tự
+        if len(split) > 1:
+            # Lặp qua từng cặp của splits
+            for i in range(len(split) - 1):
+                # Lấy cặp ký tự hiện tại
+                pair = (split[i], split[i + 1])
+                
+                # Cập nhật số lượng cặp ký tự với tần suất của từ
+                pair_freqs[pair] += freq
+
+    return pair_freqs
+pair_freqs = compute_pair_frequencies(splits, word_freqs)
+print(pair_freqs)
+```
+> defaultdict(int,
+            {('g', '##a'): 13,
+             ('g', '##ấ'): 13,
+             ('##ấ', '##u'): 6,
+             ('##a', '##n'): 8,
+             ('##ấ', '##m'): 7,
+             ('h', '##a'): 3})
+
+- Tiếp theo chúng ta sẽ lập trình hàm tính scores theo công thức ở trên:
+  
+```python
+def calculate_pair_scores(pair_freqs, letter_freqs):
+    """
+    Tính điểm số cho mỗi cặp ký tự dựa trên tần suất của cặp và tần suất của từng ký tự,
+    đảm bảo tránh chia cho 0.
+
+    Tham số:
+        pair_freqs (dict): Dictionary chứa các cặp ký tự và tần suất tương ứng của chúng.
+        letter_freqs (dict): Dictionary chứa các ký tự và tần suất tương ứng của chúng.
+
+    Trả về:
+        dict: Một dictionary với các cặp ký tự là key và điểm số là value.
+    """
+    scores = {}
+    for pair, freq in pair_freqs.items():
+        # Lấy số lượng token 1 trong ngữ liệu
+        token1, token2 = pair
+        freq1 = letter_freqs.get(token1, 0)
+        # Lấy số lượng token 2 trong ngữ liệu
+        freq2 = letter_freqs.get(token2, 0)
+        # Kiểm tra tránh chia cho 0
+        if freq1 > 0 and freq2 > 0:
+            # Áp dụng công thức bên trên
+            scores[pair] = freq / (freq1 * freq2)
+    return scores
+```
+- Kết hợp các hàm bên trên:
+  
+```python
+def compute_pair_scores(splits, word_freqs):
+    letter_freqs = compute_letter_frequencies(splits, word_freqs)
+    pair_freqs = compute_pair_frequencies(splits, word_freqs)
+    scores = calculate_pair_scores(pair_freqs, letter_freqs)
+    return scores
+
+
+def display_pair_scores(pair_scores, max_display=10):
+    for i, (key, score) in enumerate(pair_scores.items()):
+        print(f"{key}: {score}")
+        if i == max_display - 1:
+            break
+
+# Example usage
+pair_scores = compute_pair_scores(splits, word_freqs)
+display_pair_scores(pair_scores)
+```
+>('g', '##a'): 0.03125
+
+>('g', '##ấ'): 0.038461538461538464
+
+>('##ấ', '##u'): 0.07692307692307693
+
+>('##a', '##n'): 0.0625
+
+>('##ấ', '##m'): 0.07692307692307693
+
+- Ta sẽ tìm cặp có score cao nhất và lưu lại:
+  
+```python
+best_pair = ""
+max_score = None
+for pair, score in pair_scores.items():
+    if max_score is None or max_score < score:
+        best_pair = pair
+        max_score = score
+
+print(best_pair, max_score)
+```
+> ('##ấ', '##u') 0.07692307692307693
+
+- Ta sẽ lập trình hàm hợp 2 tokens:
+
+```python
+def merge_tokens(a, b):
+    """
+    Gộp hai token thành một dựa trên quy tắc BPE.
+
+    Tham số:
+        a (str): Token đầu tiên.
+        b (str): Token thứ hai.
+
+    Trả về:
+        str: Token sau khi đã gộp.
+    """
+    # Hợp hai token bất kỳ
+    if b.startswith("##"):
+        return a + b[2:]  # Bỏ đi "##" ở token b và nối vào token a
+    else:
+        return a + b
+def process_split(split, a, b):
+    """
+    Xử lý một split để gộp hai token liên tiếp a và b.
+
+    Tham số:
+        split (list): Danh sách các token cần xử lý.
+        a (str): Token đầu tiên cần gộp.
+        b (str): Token thứ hai cần gộp.
+
+    Trả về:
+        list: Danh sách các token sau khi đã gộp.
+    """
+    i = 0
+    while i  <  len(split) - 1:
+        if split[i] == a and split[i + 1] == b:
+            merged_token = merge_tokens(a, b)
+            split = split[:i] + [merged_token] + split[i + 2:]
+        else:
+            i += 1
+    return split
+def merge_pair(a, b, splits, word_freqs):
+    """
+    Lặp qua tất cả các từ và gộp cặp (a, b) trong các splits của chúng.
+
+    Tham số:
+        a (str): Token đầu tiên trong cặp cần gộp.
+        b (str): Token thứ hai trong cặp cần gộp.
+        splits (dict): Dictionary chứa các từ và danh sách các token đã được split.
+        word_freqs (dict): Dictionary chứa các từ và tần suất tương ứng của chúng.
+
+    Trả về:
+        dict: Dictionary chứa các từ với danh sách các token đã được gộp.
+    """
+    for word in word_freqs:
+        split = splits[word]
+        if len(split) > 1:
+            splits[word] = process_split(split, a, b)
+    return splits
+```
+- Giờ ta sẽ đóng gói tất cả mọi thứ lại trong một hàm như sau:
+
+```python
+def build_vocab(vocab_size, splits, word_freqs):
+    """
+    Xây dựng từ vựng dựa trên tần suất của các cặp token.
+
+    Tham số:
+        vocab_size (int): Số lượng token tối đa cho từ vựng.
+        splits (dict): Dictionary chứa các từ và danh sách các token đã được split.
+        word_freqs (dict): Dictionary chứa các từ và tần suất tương ứng của chúng.
+
+    Trả về:
+        list: Danh sách các token trong từ vựng đã được xây dựng.
+    """
+
+    # Lấy các ký tự trong ngữ liệu
+    alphabet = []
+    for word in word_freqs.keys():
+        if word[0] not in alphabet:
+            alphabet.append(word[0])
+        for letter in word[1:]:
+            if f"##{letter}" not in alphabet:
+                alphabet.append(f"##{letter}")
+
+    alphabet.sort()
+
+    vocab = alphabet
+    print(vocab)
+
+
+    # Tính tần suất xuất hiện của từng ký tự trong các splits
+    letter_freqs = compute_letter_frequencies(splits, word_freqs)
+
+    # Lặp lại quá trình cho đến khi số lượng token trong từ vựng đạt đến giới hạn 'vocab_size'
+    while len(vocab) < vocab_size:
+        # Tính điểm số cho từng cặp ký tự
+        scores = compute_pair_scores(splits, word_freqs)
+        print(scores)
+
+        # Tìm cặp token có điểm số cao nhất
+        best_pair, max_score = "", None
+        for pair, score in scores.items():
+            if max_score is None or max_score < score:
+                best_pair = pair,
+                max_score = score
+
+        # Nếu không còn cặp token nào để gộp, thoát khỏi vòng lặp
+        if len(best_pair) == 0:
+            break
+
+        # Gộp cặp token tốt nhất vào các splits
+        token1, token2 = best_pair[0][0], best_pair[0][1]
+        splits = merge_pair(token1, token2, splits, word_freqs)
+
+        # Tạo token mới sau khi gộp và thêm vào từ vựng
+        new_token = merge_tokens(best_pair[0][0],best_pair[0][1])
+        vocab.append(new_token)
+
+    return vocab
+
+# Ví dụ sử dụng hàm vừa tạo
+final_vocab = build_vocab(60, splits, word_freqs)
+print(final_vocab)
+```
+> ['##a',
+ '##m',
+ '##n',
+ '##u',
+ '##ấ',
+ 'g',
+ 'h',
+ '##ấu',
+ '##ấm',
+ '##an',
+ 'ha',
+ 'ga',
+ 'gấu',
+ 'gan',
+ 'gấm']
+
+- Giờ là phần cuối cùng, chúng ta sẽ lập trình để chia token:
+
+```python
+def find_longest_token(word, vocab):
+    """
+    Tìm token dài nhất có trong từ vựng phù hợp với từ đầu vào.
+
+    Tham số:
+        word (str): Từ cần tìm token.
+        vocab (set): Tập hợp các token trong từ vựng.
+
+    Trả về:
+        str: Token dài nhất được tìm thấy hoặc None nếu không tìm thấy token.
+    """
+    for i in range(len(word), 0, -1):  # Bắt đầu từ token dài nhất có thể
+        token_candidate = word[:i]  # Lấy phần đầu của từ
+        if token_candidate in vocab:
+            return token_candidate
+    return None
+
+def encode_subword(word):
+    """
+    Thêm tiền tố '##' vào phần của từ chưa được mã hóa.
+
+    Tham số:
+        word (str): Phần từ cần thêm tiền tố.
+
+    Trả về:
+        str: Phần từ với tiền tố '##'.
+    """
+    return  f"##{word}"
+
+def encode_word(word, vocab):
+    """
+    Mã hóa một từ thành các token dựa trên từ vựng đã có.
+
+    Tham số:
+        word (str): Từ cần mã hóa.
+        vocab (set): Tập hợp các token trong từ vựng.
+
+    Trả về:
+        list: Danh sách các token sau khi mã hóa. Trả về ["[UNK]"] nếu từ không thể mã hóa.
+    """
+    tokens = []  # Khởi tạo danh sách các token
+
+    while len(word) > 0:
+        token = find_longest_token(word, vocab)
+
+        if token is None:
+            return ["[UNK]"]  # Trả về ["[UNK]"] nếu không tìm thấy token phù hợp
+
+        # Thêm token đã tìm thấy vào danh sách
+        tokens.append(token)
+
+        # Cập nhật từ bằng cách loại bỏ phần token đã mã hóa
+        word = word[len(token):]
+
+        # Nếu còn phần từ chưa mã hóa, thêm tiền tố '##'
+        if len(word) > 0:
+            word = encode_subword(word)
+
+    return tokens
+print(encode_word("haấu", final_vocab))
+```  
+
+> ['ha', '##ấu']
+
+- Giờ hãy thử sử dụng thuật toán WordPiece thông qua -thư viện HuggingFace. Đầu tiên, chúng ta se tải vocab của mô hình BERT:
 
 `wget https://huggingface.co/bert-base-uncased/raw/main/tokenizer.json`
 
@@ -829,5 +1457,5 @@ tokenizer.convert_ids_to_tokens(flat_arr)
 
 - Như các bạn thấy thì nó có thêm token [CLS] để báo hiệu bắt đầu câu và token [SEP] để kết thúc câu.
 
-## 4. Tài liệu tham khảo.
+## 5. Tài liệu tham khảo.
 - [1] [Biểu thức chính quy - ProtonX](https://protonx.coursemind.io/courses/66b0895e02b79700126975cd/topics/66badf03e1f5ad00195e901b?activeAId=66badf0a58f9530012731ae6)

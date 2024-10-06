@@ -27,7 +27,7 @@ Học xong phần Deep Learning rồi thì có thể chọn một trong hai hư�
   
 - **Kiến thức cần nắm được:** N-gram, SkipGram, Glove, Word2vec, seq2seq, BytePairEncoding, Tách token, Embedding token, FastText, RNN, GRU, LSTM, Transfomers, Transfomers cải tiến, BERT, RoBERTa, GPT,...
 
-**LSTM:**
+**LLM:**
 - **Thời gian cần thiết:** 3 tháng để học xong cơ bản.
 - **Kiến thức cần nắm được:** Prompt Engineering, RAG, GraphRAG, RIG, pipecone, chorma, vectordatabase, học cách call API, deploy sản phẩm. Phần LLMs này sẽ rất khó để train từ đầu nên phần này sẽ tập trung chủ yếu là deploy.
 

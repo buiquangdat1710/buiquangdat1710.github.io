@@ -62,7 +62,7 @@ tags: [prompt engineering]
 
 - Prompt không sử dụng instruction tuning: Prompt không có hướng dẫn cụ thể (chỉ là tên cuốn sách), dẫn đến phản hồi không đúng với yêu cầu tóm tắt. Thay vì tóm tắt nội dung sách, mô hình chỉ cung cấp thông tin tổng quan về cuốn sách và ngày xuất bản.
 - Như các bạn thấy thì hầu như tất cả câu prompt do người dùng đặt đều sử dụng kĩ thuật instruction tuning để yêu cầu nhiệm vụ cho mô hình. 
-- Việc sử dụng instruction tuning đã được chứng minh là cỉa thiện khả năng học so với kĩ thuật zeros-shot ([Wei et al., 2022](https://arxiv.org/pdf/2109.01652)).
+- Việc sử dụng instruction tuning đã được chứng minh là cải thiện khả năng học so với kĩ thuật zeros-shot ([Wei et al., 2022](https://arxiv.org/pdf/2109.01652)).
 
 ### Reinforcement Learning from Human Feedback (RLHF).
 
@@ -97,7 +97,7 @@ tags: [prompt engineering]
 - Mặc dù các mô hình ngôn ngữ lớn thể hiện khả năng zero-shot đáng kể, nhưng chúng vẫn gặp khó khăn với những nhiệm vụ phức tạp hơn khi sử dụng cài đặt zero-shot. Kỹ thuật few-shot prompting có thể được sử dụng như một phương pháp để kích thích việc học trong ngữ cảnh, nơi chúng ta cung cấp các ví dụ trong prompt để hướng dẫn mô hình đạt hiệu suất tốt hơn. Các ví dụ này đóng vai trò như điều kiện cho các ví dụ tiếp theo mà chúng ta muốn mô hình tạo ra phản hồi.
 
 - Theo [Touvron et al. 2023](https://arxiv.org/pdf/2302.13971), các thuộc tính few-shot lần đầu tiên xuất hiện khi các mô hình được mở rộng đến kích thước đủ lớn [Kaplan et al., 2020](https://arxiv.org/abs/2001.08361).
-- Hãy cùng minh họa few-shot prompting thông qua một ví dụ được trình bày trong [Brown et al. 2020](). Trong ví dụ này, một từ mới sẽ được thêm vào trong câu và chúng ta phải lấy ví dụ về từ đó:
+- Hãy cùng minh họa few-shot prompting thông qua một ví dụ được trình bày trong [Brown et al. 2020](https://arxiv.org/abs/2005.14165). Trong ví dụ này, một từ mới sẽ được thêm vào trong câu và chúng ta phải lấy ví dụ về từ đó:
 - Prompt:
 
 > A "whatpu" is a small, furry animal native to Tanzania. An example of a sentence that uses the word whatpu is:

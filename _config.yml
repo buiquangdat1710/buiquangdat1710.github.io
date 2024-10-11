@@ -17,7 +17,7 @@ timezone:
 
 title: Dat's Blog # the main title
 
-tagline: My Peronal Blog # it will display as the subtitle
+tagline: My Personal Blog # it will display as the subtitle
 
 description: >- # used by seo meta and the atom feed
   Blog in AI: Machine Learning, Deep Learning, NLP, CV, Gen AI.
@@ -96,7 +96,7 @@ theme_mode: # [light | dark]
 cdn:
 
 # the avatar on sidebar, support local or CORS resources
-avatar: https://scontent.fhan18-1.fna.fbcdn.net/v/t39.30808-6/458184851_1259367975437338_3253553350360218069_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeGE70rncq5mrz65uEu0-19NiimIfmtH8_2KKYh-a0fz_WTjCbhS3mvmYTE4wm_n99ZT-A3LVtAK5fm1qnp0__B-&_nc_ohc=982CzIw5shgQ7kNvgFvD86b&_nc_ht=scontent.fhan18-1.fna&_nc_gid=ATxnOe-UBnAMipWfuLJf8DP&oh=00_AYDPyHBN-oVu72hGPN8AAJNmIil3ZoHHNQS-yLRQtMpAGA&oe=6705183C
+avatar: /image/Avatar.jpg
 
 # The URL of the site-wide social preview image used in SEO `og:image` meta tag.
 # It can be overridden by a customized `page.image` in front matter.

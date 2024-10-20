@@ -1,10 +1,12 @@
 ---
 title: "Deploy Sản Phẩm Với Docker + Cloud"
 date: 2024-10-07 00:00:00  + 0800
-categories: [Docker]
+categories: [AI Production]
 tags: [docker, cloud]
 ---
 ---
+
+Deploy sản phẩm với Docker và Cloud là phương pháp hiện đại giúp triển khai ứng dụng một cách nhanh chóng, hiệu quả và linh hoạt. Docker cho phép đóng gói ứng dụng và các phụ thuộc vào một container, giúp đảm bảo tính nhất quán khi chạy trên bất kỳ môi trường nào. Kết hợp với các dịch vụ cloud như AWS, Azure hay Google Cloud, việc deploy trở nên dễ dàng hơn bao giờ hết, cho phép mở rộng quy mô ứng dụng, tối ưu tài nguyên và đảm bảo tính ổn định. Đây là giải pháp phổ biến cho các sản phẩm công nghệ hiện đại, giúp tăng tốc độ phát triển và triển khai.
 
 ## 1. Docker là gì ?
 

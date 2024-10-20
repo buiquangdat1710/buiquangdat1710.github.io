@@ -13,7 +13,7 @@ date: 2024-09-29 00:00:00  + 0800
 
 **Machine Learning:**
 - **Thời gian cần thiết:** 4-5 tháng, phần này rất quan trọng, đừng học qua loa cho xong. Mình đã từng học để cho xong trong vòng 2 tháng và khi có người hỏi lại mình thì mình trả lời sai hết và phải học lại từ đầu.
-- **Kiến thức cần nắm được:** Hồi quy tuyến tính, K-means, KNN, hồi quy Logistic, Gradient Descent, PCA, hồi quy Softmax, SVM (phần này rất khó, học kĩ toán mới học đc SVM), Recommend System, Principal Component Analysis, Anomaly Detection, Linear Discriminant Analysis, Decision Tree, Random Forest,... Đặc biệt có mảng Reference Learning là phần mình thích nhất trong AI, học cái này sẽ hiểu được cách các robot phản ứng với môi truờng.
+- **Kiến thức cần nắm được:** Hồi quy tuyến tính, K-means, KNN, hồi quy Logistic, Gradient Descent, PCA, hồi quy Softmax, SVM (phần này rất khó, học kĩ toán mới học đc SVM), Recommend System, Principal Component Analysis, Anomaly Detection, Linear Discriminant Analysis, Decision Tree, Random Forest,... Đặc biệt có mảng Reinforcement Learning là phần mình thích nhất trong AI, học cái này sẽ hiểu được cách các robot phản ứng với môi truờng.
 
 **Deep Learning:**
 - **Thời gian cần thiết:** 3-4 tháng để nắm được cơ bản. Nâng cao chắc mất 1-2 năm. Phần này thì toán nhẹ hơn Machine Learning nhưng phải nắm chắc thì mới học cao lên được
@@ -45,6 +45,8 @@ Dưới đây là danh sách các khóa học và các trang web cũng như sác
 
 **Machine Learning:**
 - Web [Machine Learning cơ bản](https://machinelearningcoban.com/math/) của Vũ Hữu Tiệp: Chắc đây là trang web huyền thoại mà ai mới học AI cũng xem. Thực sự đây là trang web rất tốt để các bạn nhập môn với AI, nên đọc thêm sách Machine Learning cơ bản nữa, thường thì sách sẽ đầy đủ hơn là web nhưng web có animation ở một số bài xem dễ hiểu hơn. Nói chung là nên đọc sách và web song song.
+- Web [Machine Learning cho dữ liệu dạng bảng](https://machinelearningcoban.com/tabml_book/intro.html) của Vũ Hữu Tiệp: Trang web này chuyên về xử lý về dữ liệu dạng bảng, là trang web thứ hai của bác Tiệp, các bài blog được viết dưới dạng ngắn hơn web Machine Learning cơ bản nhưng dễ hiểu, cô đọng.
+- Web [Blog của Chris McCormick](https://mccormickml.com/): Chuyên về mảng NLP, hình vẽ các bài viết khá đẹp và dễ nhìn.
 - Web [Deep AI KhanhBlog](https://phamdinhkhanh.github.io/deepai-book/intro.html) của Phạm Đình Khánh: Một trang web rất hay nữa, trang web này còn dạy cả python và những framework như pandas, numpy... Các phần Machine Learning cũng đào sâu hơn trang của bác Tiệp, nhưng lượng kiến thức thì không rộng bằng. 
 - Web [Khoa học dữ liệu](https://phamdinhkhanh.github.io/content) của Phạm Đình Khánh: Lại một trang web rất hay nữa của bác Khánh. Trang này thì chứa cả phần Machine Learning, NLP, CV, GAN,... Mình chưa đọc nhiều trang này nên chưa đánh giá được.
 - Web [Blog của Đỗ Minh Hải](https://dominhhai.github.io/vi/): Bác này hình như cái gì cũng viết, từ AI đến Backend, bác này còn review sách nữa, khá thú vị. Mình cũng chưa đọc nhiều trang này nên cũng chưa đánh giá kiến thức được.

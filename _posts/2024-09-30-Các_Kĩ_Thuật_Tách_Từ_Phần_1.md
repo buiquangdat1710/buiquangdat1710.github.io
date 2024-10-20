@@ -16,6 +16,8 @@ tags: [Token]
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-AMS_HTML-full"></script>
 
+**Tách từ (Tokenizer)** là quá trình chia văn bản thành các đơn vị nhỏ hơn, thường là từ hoặc ký tự, để dễ dàng xử lý trong các bài toán ngôn ngữ tự nhiên (NLP). Kỹ thuật này giúp mô hình máy học hiểu và phân tích văn bản một cách có cấu trúc, từ đó hỗ trợ các tác vụ như phân loại, dịch thuật, hoặc trích xuất thông tin hiệu quả hơn.
+
 ## 1. Giới thiệu
 - Trong bài toán xử lý ngôn ngữ tự nhiên, sau khi qua bước làm **sạch**, hay nói cách khác sau khi áp dụng biểu thức chính quy hóa lên văn bản, chúng ta sẽ phải **tách token**, tức là chia văn bản thành những đoạn nhỏ.
 - Cụ thể hơn, tách token (tokenizer) là nhiệm vụ tách câu thành những đơn vị nhỏ, những đơn vị nhỏ này gọi là **token**.

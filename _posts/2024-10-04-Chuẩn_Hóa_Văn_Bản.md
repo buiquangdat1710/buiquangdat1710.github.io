@@ -16,6 +16,8 @@ tags: [text normalization]
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-AMS_HTML-full"></script>
 
+**Chuẩn hóa văn bản (Text Normalization)** là quá trình xử lý và chuyển đổi dữ liệu văn bản để đảm bảo tính nhất quán, loại bỏ các yếu tố không cần thiết, và chuẩn bị cho các bước xử lý tiếp theo trong các bài toán ngôn ngữ tự nhiên (NLP). Quá trình này thường bao gồm các bước như chuyển đổi chữ hoa thành chữ thường, loại bỏ dấu câu, chuẩn hóa khoảng trắng, và thay thế các từ viết tắt hoặc từ đồng nghĩa. Chuẩn hóa văn bản giúp cải thiện độ chính xác của các mô hình NLP bằng cách giảm thiểu sự đa dạng không cần thiết trong dữ liệu.
+
 ## 1. Chuẩn hóa văn bản.
 
 - Chuẩn hóa văn bản là một chuỗi việc chuyển văn bản sang dạng chuẩn, thuận tiện để sử dụng trong các bài toán khác nhau.

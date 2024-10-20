@@ -1,10 +1,12 @@
 ---
 title: "Prompt Engineering"
 date: 2024-10-09 00:00:00  + 0800
-categories: [Prompt Engineering]
+categories: [AI Production]
 tags: [prompt engineering]
 ---
 ---
+
+**Prompt Engineering** là kỹ thuật tối ưu hóa các lệnh (prompt) để hướng dẫn mô hình AI, đặc biệt là các mô hình ngôn ngữ lớn như GPT, đưa ra phản hồi chính xác và hữu ích. Bằng cách thiết kế prompt phù hợp, người dùng có thể tận dụng tối đa khả năng của AI trong nhiều nhiệm vụ khác nhau, từ viết lách đến giải quyết vấn đề. Đây là một kỹ năng quan trọng giúp khai thác hiệu quả tiềm năng của trí tuệ nhân tạo trong thực tế.
 
 ## 1. Prompt là gì ?
 
@@ -195,4 +197,4 @@ tags: [prompt engineering]
 
 - Nhìn chung, việc cung cấp ví dụ rất hữu ích để giải một số bài toán. Khi Zero-shot prompting (không cung cấp ví dụ) và few-shot prompting không đủ, điều đó có thể có nghĩa là những gì mô hình đã học chưa đủ để thực hiện tốt bài toán. Từ đây, người ta khuyến nghị bắt đầu nghĩ về việc tinh chỉnh (fine-tuning) các mô hình của mình hoặc thử nghiệm với các kỹ thuật prompting nâng cao hơn. Tiếp theo, chúng ta sẽ nói về một trong những kỹ thuật prompting phổ biến được gọi là Chain-of-Thought prompting, đã thu hút rất nhiều sự chú ý. 
 
-> Coming Soon
+> Coming Soon...

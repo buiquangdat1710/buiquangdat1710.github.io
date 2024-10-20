@@ -6,6 +6,8 @@ tags: [Regrex]
 ---
 ---
 
+**Biểu thức chính quy (Regular Expression)**, thường viết tắt là regex, là một chuỗi các ký tự đặc biệt dùng để mô tả một mẫu (pattern) tìm kiếm trong văn bản. Biểu thức chính quy được sử dụng để tìm kiếm, so khớp hoặc thay thế các mẫu cụ thể trong dữ liệu văn bản. Với khả năng linh hoạt và mạnh mẽ, regex giúp xử lý các tác vụ phức tạp như kiểm tra định dạng email, số điện thoại, hoặc trích xuất các thông tin cụ thể từ văn bản một cách nhanh chóng và hiệu quả. Regex là công cụ phổ biến trong nhiều ngôn ngữ lập trình và hệ thống xử lý văn bản.
+
 ## 1. Giới thiệu
 
 <table style="margin-left: auto; margin-right: auto;">

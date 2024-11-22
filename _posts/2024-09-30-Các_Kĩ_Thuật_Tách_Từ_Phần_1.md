@@ -247,7 +247,9 @@ $$p(w_1 \dots w_n) = p(w_1) \cdot p(w_2 \mid w_1) \cdot p(w_3 \mid w_1 w_2) \cdo
   
 $$p(w_i \mid w_1 \dots w_{i-1}) = p(w_i \mid w_{i-n+1} \dots w_{i-1}) \tag{2}$$
 
-- Phát biểu đơn giản thì phương trình trên nói là xác suất của kí tự $w_i$ không cần nhất thiết phải dựa vào i-1 kí tự đã biết mà chỉ cần dựa vào n - 1 kí tự đã biết gần nhất thôi là đủ. Điều này nghe vẻ không đúng lắm vì rõ ràng theo như công thức tính xác suất điều kiện thì vế trái với vế phải của phương trình là khác nhau. Giả định Markov không phải lúc nào cũng đúng, mà nó chỉ là một giả định được áp dụng cho một số loại mô hình ngẫu nhiên cụ thể. Giả định này đơn giản hóa việc tính toán và dự đoán trong các hệ thống, nhưng không phải lúc nào cũng phản ánh thực tế của mọi quá trình ngẫu nhiên.
+- Phát biểu đơn giản thì phươimport matplotlib.pyplot as plt
+import numpy as np
+import panng trình trên nói là xác suất của kí tự $w_i$ không cần nhất thiết phải dựa vào i-1 kí tự đã biết mà chỉ cần dựa vào n - 1 kí tự đã biết gần nhất thôi là đủ. Điều này nghe vẻ không đúng lắm vì rõ ràng theo như công thức tính xác suất điều kiện thì vế trái với vế phải của phương trình là khác nhau. Giả định Markov không phải lúc nào cũng đúng, mà nó chỉ là một giả định được áp dụng cho một số loại mô hình ngẫu nhiên cụ thể. Giả định này đơn giản hóa việc tính toán và dự đoán trong các hệ thống, nhưng không phải lúc nào cũng phản ánh thực tế của mọi quá trình ngẫu nhiên.
 - Giả định Markov khẳng định rằng trạng thái tương lai chỉ phụ thuộc vào trạng thái hiện tại, không phụ thuộc vào quá khứ. Điều này thường đúng với các mô hình được thiết kế dựa trên giả định này, chẳng hạn như chuỗi Markov, nơi các quá trình ngẫu nhiên được mô tả bởi các bước kế tiếp có quy tắc chuyển trạng thái cố định.
 - Quay lại với phương trình giả định Markov, nếu ta chọn $n = 2$ thì phương trình sẽ thành:
   

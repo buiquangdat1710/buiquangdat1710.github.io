@@ -141,8 +141,8 @@ tags: [proptit]
 
 - Hãy xem xét cách viết một bộ lọc thư rác bằng kỹ thuật lập trình truyền thống (Hình 1.1):
 
-  1. Đầu tien ta cần kiểm tra xem thư rác thường trông như thế nào. Ta có thể phát hiện một số từ hoặc cụm từ (như "4U", "credit card", "free", "sale" và "amazing") hay xuất hiện trong tiêu đề thư. Ta cũng có thể thấy một vài khuôn mãu khác ở tên người gửi, nội dung thư và ở các phần khác cuả thư.
-  2. Nếu ta viết thuật toán nhận diện cho từng khuôn mãu trên, chương trình sẽ đánh dấu một thư điện tử là thư rác nếu một vài khuôn mẫu khác ở tên người gửi, nội dung thư và ở các phần khác của thư.
+  1. Đầu tien ta cần kiểm tra xem thư rác thường trông như thế nào. Ta có thể phát hiện một số từ hoặc cụm từ (như "4U", "credit card", "free", "sale" và "amazing") hay xuất hiện trong tiêu đề thư. Ta cũng có thể thấy một vài khuôn mẫu khác ở tên người gửi, nội dung thư và ở các phần khác cuả thư.
+  2. Nếu ta viết thuật toán nhận diện cho từng khuôn mẫu trên, chương trình sẽ đánh dấu một thư điện tử là thư rác nếu một vài khuôn mẫu khác ở tên người gửi, nội dung thư và ở các phần khác của thư.
   3. Tiếp đến, ta kiểm thử chương trình và lặp lại hai bước trên cho đến khi đạt mức chất lượng để triển khai.
 
 ![anh](./image/20.png)
@@ -722,14 +722,231 @@ Ta đã xem xét nhiều ví dụ về dữ liệu xấu, giờ hãy cùng xem x
 
 - Trong một số trường hợp, ta có thể dễ dàng thu được một lượng lớn dữ liệu để huấn luyện, nhưng có lẽ chúng sẽ không đại diện hoàn toàn cho dữ liệu mà ta sẽ gặp phải trong thực tế. Giả sử bạn muốn tạo một ứng dụng điện thoại để chụp ảnh hoa và tự động xác định loài hoa. Bạn có thể dễ dàng tải xuống hàng triệu bức ảnh về hoa trên mạng, nhưng chúng sẽ không phải là đại diện hoàn hảo cho những bức ảnh sẽ được chụp bởi ứng dụng trên thiết bị di động. Có thể chỉ có 10,000 ảnh được chụp bằng ứng dụng đó. Trong trường hợp này, quy tắc quan trọng cần nhớ là tập kiểm định và tập kiểm tra phải mang tính đại diện cho dữ liệu trong thực tế càng nhiều càng tốt. Vì thế, hai tập này nên chỉ nên chứa các ảnh được chụp bằng ứng dụng: bạn có thể xáo trộn chúng và chia một nửa cho tập kiểm định, một nửa cho tập kiểm tra (đảm bảo rằng giữa hai tập không có mẫu nào bị trùng hoặc giống nhau). Nhưng sau khi huấn luyện mô hình chỉ trên ảnh trên mạng, nếu bạn thấy chất lượng của mô hình trên tập kiểm định không tốt, bạn sẽ không biết được nguyên nhân là do mô hình đã quá khớp dữ liệu huấn luyện, hay chỉ là do sự không tương đồng giữa dữ liệu trên mạng và dữ liệu chụp bằng ứng dụng di động. Một giải pháp là giữ lại một vài ảnh huấn luyện (ảnh trên mạng) cho một tập khác mà Andrew Ng gọi là tập huấn luyện - phát triển (train-dev set). Sau khi mô hình được huấn luyện (trên tập huấn luyện), không phải trên tập huấn luyện-phát triển, ta có thể đánh giá nó trên tập huấn luyện-phát triển. Nếu chất lượng tốt, ta biết rằng vấn đề không nằm ở mô hình quá khớp tập huấn luyện. Nếu sau đó mô hình đạt chất lượng kém trên tập kiểm định, vấn đề chắc chắn đến từ việc dữ liệu kiểm định không đại diện. Bạn có thể dễ dàng quyết định vấn đề này bằng cách sử dụng kỹ xảo lấy ảnh từ tập huấn luyện để làm cho chúng giống dữ liệu kiểm tra hơn, bởi ứng dụng sẽ chỉ huấn luyện lại mô hình. Ngược lại, nếu mô hình hoạt động kém trên tập huấn luyện – phát triển, mô hình chắc hẳn đã quá khớp dữ liệu huấn luyện, vì vậy bạn enen đơn giản hóa hoặc điều chỉnh mô hình, thu nhập thêm và làm sạch dữ liệu huấn luyện.
 
---- 
+--- đáp
 #### Định Lý Không Có Bữa Trưa Miễn Phí
 
 - Mô hình là một phiên bản được đơn giản hóa của các mẫu. Đơn giản hóa ở đây đồng nghĩa với việc loại bỏ các chi tiết thừa không có khả năng khái quát hóa cho các trường hợp mới. Để quyết định phần dữ liệu nào cần loại bỏ và phần dữ liệu nào cần giữ lại, bạn cần phải đặt ra các giả định. Ví dụ, một mô hình tuyến tính đưa ra giả định rằng dữ liệu có bản chất tuyến tính và khoảng cách giữa các mẫu và đường thẳng chỉ là nhiễu, và ta có thể bỏ qua khoảng cách đó mà không ảnh hưởng gì.
 
 - Trong một [bài báo nổi tiếng](https://direct.mit.edu/neco/article-abstract/8/7/1341/6016/The-Lack-of-A-Priori-Distinctions-Between-Learning?redirectedFrom=fulltext) năm 1996, David Wolpert đã chứng minh rằng nếu bạn không đặt bất kỳ giả định nào về dữ liệu thì không có lý do gì để nói rằng mô hình này tốt hơn mô hình kia. Điều này được gọi là định lý Không có Bữa trưa Miễn phí (No Free Lunch – NFL). Với một số tập dữ liệu, mô hình tốt nhất là mô hình tuyến tính, trong khi với các tập dữ liệu khác, mô hình tốt nhất là một mạng nơ-ron. Không có mô hình nào được tiên nghiệm là sẽ hoạt động tốt hơn (do đó mà định lý có tên như trên). Cách duy nhất để biết chắc rằng mô hình nào tốt nhất là đánh giá tất cả các mô hình. Vì điều này là bất khả thi trong thực tế, ta cần đưa ra một số giả định hợp lý về dữ liệu và chỉ đánh giá một số mô hình phù hợp. Ví dụ: đối với các tác vụ đơn giản, ta có thể đánh giá các mô hình tuyến tính với nhiều mức điều chuẩn khác nhau. Ngược lại, đối với một bài toán phức tạp, ta có thể đánh giá các mạng nơ-ron khác nhau.
 
-## 4. Tài Liệu Tham Khảo.
+
+## 4. Câu Hỏi Ôn Tập.
+
+- Dưới đây là các câu hỏi về blog này để giúp cho bạn có thể nắm chắc kiến thức. Hãy cố gắng tự mình trả lời các câu hỏi và đừng xem đáp án vội, dành khoảng 10-15 phút suy nghĩ câu trả lời rồi hãy xem đáp án.
+
+#### 1. Định nghĩa của Học Máy là gì ?
+
+<details>
+  <summary style="display: inline-block; padding: 6px 12px; font-size: 14px; font-weight: 400; line-height: 1.5; color: var(--button-text-color, #fff); background-color: var(--button-bg-color, #28a745); border: 1px solid transparent; border-radius: 4px; cursor: pointer;">Xem đáp án</summary>
+  <div style="margin-top: 10px; padding: 10px; background-color: var(--answer-bg-color, #e9f7ef); border-left: 5px solid var(--answer-border-color, #28a745); color: var(--answer-text-color, #000);">
+    <p><strong>🤖 Đáp án:</strong> Học máy là xây dựng các hệ thống có thể học từ dữ liệu. Học có nghĩa là thực hiện một tác vụ nào đó tốt hơn, theo một thang đo chất lượng xác định.</p>
+  </div>
+</details>
+
+---
+
+#### 2. Bạn có thể liệt kê bốn loại bài toán mà Học Máy giải quyết tốt không ?
+
+<details>
+  <summary style="display: inline-block; padding: 6px 12px; font-size: 14px; font-weight: 400; line-height: 1.5; color: var(--button-text-color, #fff); background-color: var(--button-bg-color, #28a745); border: 1px solid transparent; border-radius: 4px; cursor: pointer;">Xem đáp án</summary>
+  <div style="margin-top: 10px; padding: 10px; background-color: var(--answer-bg-color, #e9f7ef); border-left: 5px solid var(--answer-border-color, #28a745); color: var(--answer-text-color, #000);">
+    <p> <strong>🤖 Đáp án: </strong> Học Máy rất hiệu quả cho các vấn đề phức tạp mà không có thuật toán nào giải được, để thay thế các chuỗi dài quy luật được thiết kế thủ công, để xây dựng các hệ thống có thể thích ứng với môi trường biến động, và cuối cùng là để giúp con người học (ví dụ như khai phá dữ liệu).</p>
+  </div>
+</details>
+
+---
+
+#### 3. Tập huấn luyện đã gán nhãn là gì ?
+
+<details>
+  <summary style="display: inline-block; padding: 6px 12px; font-size: 14px; font-weight: 400; line-height: 1.5; color: var(--button-text-color, #fff); background-color: var(--button-bg-color, #28a745); border: 1px solid transparent; border-radius: 4px; cursor: pointer;">Xem đáp án</summary>
+  <div style="margin-top: 10px; padding: 10px; background-color: var(--answer-bg-color, #e9f7ef); border-left: 5px solid var(--answer-border-color, #28a745); color: var(--answer-text-color, #000);">
+    <p> <strong>🤖 Đáp án: </strong> Một tập huấn luyện có gán nhãn là một tập huấn luyện có chứa đáp án mong muốn (gọi là nhãn) cho mỗi mẫu.</p>
+  </div>
+</details>
+
+---
+
+#### 4. Hai tác vụ học có giám sát phổ biến nhất là gì ?
+
+<details>
+  <summary style="display: inline-block; padding: 6px 12px; font-size: 14px; font-weight: 400; line-height: 1.5; color: var(--button-text-color, #fff); background-color: var(--button-bg-color, #28a745); border: 1px solid transparent; border-radius: 4px; cursor: pointer;">Xem đáp án</summary>
+  <div style="margin-top: 10px; padding: 10px; background-color: var(--answer-bg-color, #e9f7ef); border-left: 5px solid var(--answer-border-color, #28a745); color: var(--answer-text-color, #000);">
+    <p> <strong>🤖 Đáp án: </strong> Hai tác vụ có giám sát phổ biến nhất là hồi quy và phân loại.</p>
+  </div>
+</details>
+
+---
+
+#### 5. Bạn có thể liệt kê bốn tác vụ học không giám sát phổ biến không ?
+
+<details>
+  <summary style="display: inline-block; padding: 6px 12px; font-size: 14px; font-weight: 400; line-height: 1.5; color: var(--button-text-color, #fff); background-color: var(--button-bg-color, #28a745); border: 1px solid transparent; border-radius: 4px; cursor: pointer;">Xem đáp án</summary>
+  <div style="margin-top: 10px; padding: 10px; background-color: var(--answer-bg-color, #e9f7ef); border-left: 5px solid var(--answer-border-color, #28a745); color: var(--answer-text-color, #000);">
+    <p> <strong>🤖 Đáp án: </strong> Tác vụ không giám sát phổ biến gồm có phân cụm, biễu diễn, giảm chiều dữ liệu, và học luật kết hợp.</p>
+  </div>
+</details>
+
+---
+
+#### 6. Bạn sẽ sử dụng loại thuật toán Học Máy nào để cho phép rô bốt đi lại trong các địa hình chưa biết ?
+
+<details>
+  <summary style="display: inline-block; padding: 6px 12px; font-size: 14px; font-weight: 400; line-height: 1.5; color: var(--button-text-color, #fff); background-color: var(--button-bg-color, #28a745); border: 1px solid transparent; border-radius: 4px; cursor: pointer;">Xem đáp án</summary>
+  <div style="margin-top: 10px; padding: 10px; background-color: var(--answer-bg-color, #e9f7ef); border-left: 5px solid var(--answer-border-color, #28a745); color: var(--answer-text-color, #000);">
+    <p> <strong>🤖 Đáp án: </strong> Học Tăng cường nhiều khả năng sẽ hoạt động tốt nhất nếu ta muốn robot có thể học cách đi trong nhiều địa hình chưa biết vì đây là dạng vấn đề mà Học Tăng cường thường đối phó. Ta có thể biểu diễn bài toán dưới dạng tác vụ giám sát hoặc bán giám sát, nhưng như vậy sẽ không tự nhiên bằng.</p>
+  </div>
+</details>
+
+---
+
+#### 7. Bạn sẽ sử dụng loại thuật toán nào để phân nhóm khách hàng thành nhiều nhóm ?
+
+<details>
+  <summary style="display: inline-block; padding: 6px 12px; font-size: 14px; font-weight: 400; line-height: 1.5; color: var(--button-text-color, #fff); background-color: var(--button-bg-color, #28a745); border: 1px solid transparent; border-radius: 4px; cursor: pointer;">Xem đáp án</summary>
+  <div style="margin-top: 10px; padding: 10px; background-color: var(--answer-bg-color, #e9f7ef); border-left: 5px solid var(--answer-border-color, #28a745); color: var(--answer-text-color, #000);">
+    <p> <strong>🤖 Đáp án: </strong> Nếu bạn không biết trước các nhóm cần tách biệt thì có thể sử dụng thuật toán phân cụm (học không giám sát) để chia phân khúc thành các cụm khách hàng tương tự nhau. Tuy nhiên, nếu đã biết những nhóm cần chia thì ta có thể đưa các mẫu của mỗi nhóm vào một thuật toán phân loại (học có giám sát) và nó sẽ phân loại khách hàng vào các nhóm đấy.</p>
+  </div>
+</details>
+
+---
+
+#### 8. Bạn sẽ đặt bài toán phát hiện thư rác là bài toán học có giám sát hay học không giám sát ?
+
+
+<details>
+  <summary style="display: inline-block; padding: 6px 12px; font-size: 14px; font-weight: 400; line-height: 1.5; color: var(--button-text-color, #fff); background-color: var(--button-bg-color, #28a745); border: 1px solid transparent; border-radius: 4px; cursor: pointer;">Xem đáp án</summary>
+  <div style="margin-top: 10px; padding: 10px; background-color: var(--answer-bg-color, #e9f7ef); border-left: 5px solid var(--answer-border-color, #28a745); color: var(--answer-text-color, #000);">
+    <p> <strong>🤖 Đáp án: </strong> Phân loại thư rác là một bài toán học có giám sát điển hình: thuật toán được cho xem nhiều mẫu thư cùng với nhãn của chúng (là thư rác hay không).</p>
+  </div>
+</details>
+
+---
+
+#### 9. Hệ thống học trực tuyến là gì ?
+
+<details>
+  <summary style="display: inline-block; padding: 6px 12px; font-size: 14px; font-weight: 400; line-height: 1.5; color: var(--button-text-color, #fff); background-color: var(--button-bg-color, #28a745); border: 1px solid transparent; border-radius: 4px; cursor: pointer;">Xem đáp án</summary>
+  <div style="margin-top: 10px; padding: 10px; background-color: var(--answer-bg-color, #e9f7ef); border-left: 5px solid var(--answer-border-color, #28a745); color: var(--answer-text-color, #000);">
+    <p> <strong>🤖 Đáp án: </strong> Một hệ thống học trực tuyến có thể học từ dòng dữ liệu gia tăng, khác với hệ thống học theo batch. Điều này khiến nó có thể thích ứng nhanh chóng với thay đổi trong cả dữ liệu hay các hệ thống tự động, và có khả năng huấn luyện trên các lượng dữ liệu cực lớn.</p>
+  </div>
+</details>
+
+---
+
+#### 10. Thế nào là học ngoài bộ nhớ chính ?
+
+<details>
+  <summary style="display: inline-block; padding: 6px 12px; font-size: 14px; font-weight: 400; line-height: 1.5; color: var(--button-text-color, #fff); background-color: var(--button-bg-color, #28a745); border: 1px solid transparent; border-radius: 4px; cursor: pointer;">Xem đáp án</summary>
+  <div style="margin-top: 10px; padding: 10px; background-color: var(--answer-bg-color, #e9f7ef); border-left: 5px solid var(--answer-border-color, #28a745); color: var(--answer-text-color, #000);">
+    <p> <strong>🤖 Đáp án: </strong> Thuật toán “ngoài bộ nhớ chính” có thể xử lý lượng dữ liệu khổng lồ mà không thể chứa trong bộ nhớ chính của máy tính. Một thuật toán “ngoài bộ nhớ chính” chia dữ liệu thành các mini-batch và sử dụng các kỹ thuật học trực tuyến để học từ các mini-batch này.</p>
+  </div>
+</details>
+
+---
+
+#### 11. Loại thuật toán nào dựa vào phép đo độ tương đồng để đưa ra dự đoán ?
+
+<details>
+  <summary style="display: inline-block; padding: 6px 12px; font-size: 14px; font-weight: 400; line-height: 1.5; color: var(--button-text-color, #fff); background-color: var(--button-bg-color, #28a745); border: 1px solid transparent; border-radius: 4px; cursor: pointer;">Xem đáp án</summary>
+  <div style="margin-top: 10px; padding: 10px; background-color: var(--answer-bg-color, #e9f7ef); border-left: 5px solid var(--answer-border-color, #28a745); color: var(--answer-text-color, #000);">
+    <p> <strong>🤖 Đáp án: </strong> Một hệ thống học theo mẫu sẽ học thuộc lòng các mẫu huấn luyện; rồi khi được cho một mẫu mới nó sẽ sử dụng một thang đo độ tương tự để tìm mẫu giống nhất trong tập huấn luyện và dùng nó để đưa ra dự đoán.</p>
+  </div>
+</details>
+
+---
+
+#### 12. Sự khác biệt giữa tham số mô hình và siêu tham số của thuật toán là gì ?
+
+<details>
+  <summary style="display: inline-block; padding: 6px 12px; font-size: 14px; font-weight: 400; line-height: 1.5; color: var(--button-text-color, #fff); background-color: var(--button-bg-color, #28a745); border: 1px solid transparent; border-radius: 4px; cursor: pointer;">Xem đáp án</summary>
+  <div style="margin-top: 10px; padding: 10px; background-color: var(--answer-bg-color, #e9f7ef); border-left: 5px solid var(--answer-border-color, #28a745); color: var(--answer-text-color, #000);">
+    <p> <strong>🤖 Đáp án: </strong> Mô hình có một hoặc nhiều tham số mô hình dùng để xác định giá trị dự đoán khi được cho một mẫu mới (ví dụ như là tham số độ dốc trong mô hình tuyến tính). Một thuật toán học sẽ cố gắng tìm các giá trị tối ưu cho các tham số đó, sao cho mô hình sẽ khái quát hóa tốt cho các mẫu mới. Một siêu tham số là một tham số của chính bản thân thuật toán học, không phải của mô hình (ví dụ như lượng điều chuẩn sẽ áp dụng).</p>
+  </div>
+</details>
+
+---
+
+#### 13. Thuật toán học dựa trên mô hình đang tìm kiếm thứ gì ? Chiến lược phổ biến nhất mà chúng sử dụng để thành công là gì? Chúng đưa ra dự đoán như thế nào ?
+
+<details>
+  <summary style="display: inline-block; padding: 6px 12px; font-size: 14px; font-weight: 400; line-height: 1.5; color: var(--button-text-color, #fff); background-color: var(--button-bg-color, #28a745); border: 1px solid transparent; border-radius: 4px; cursor: pointer;">Xem đáp án</summary>
+  <div style="margin-top: 10px; padding: 10px; background-color: var(--answer-bg-color, #e9f7ef); border-left: 5px solid var(--answer-border-color, #28a745); color: var(--answer-text-color, #000);">
+    <p> <strong>🤖 Đáp án: </strong> Thuật toán học dựa trên mô hình sẽ tìm giá trị tối ưu cho các tham số mô hình sao cho khái quát hóa tốt trên các mẫu mới. Ta thường huấn luyện các hệ thống như vậy bằng cách tối thiểu hóa một hàm chi phí đo mức độ sai lệch của các dự đoán của mô hình trên tập huấn luyện, cộng với một lượng phạt cho mức độ phức tạp của mô hình nếu mô hình được điều chuẩn. Để đưa ra dự đoán, ta đưa các đặc trưng của một mẫu mới vào hàm dự đoán của mô hình, sử dụng giá trị tham số tìm được từ thuật toán học</p>
+  </div>
+</details>
+
+---
+
+#### 14. Bạn có thể liệt kê bốn thách thức chính trong Học Máy không ?
+
+<details>
+  <summary style="display: inline-block; padding: 6px 12px; font-size: 14px; font-weight: 400; line-height: 1.5; color: var(--button-text-color, #fff); background-color: var(--button-bg-color, #28a745); border: 1px solid transparent; border-radius: 4px; cursor: pointer;">Xem đáp án</summary>
+  <div style="margin-top: 10px; padding: 10px; background-color: var(--answer-bg-color, #e9f7ef); border-left: 5px solid var(--answer-border-color, #28a745); color: var(--answer-text-color, #000);">
+    <p> <strong>🤖 Đáp án: </strong> Một vài thách thức chính trong Học máy là thiếu dữ liệu, chất lượng dữ liệu kém, dữ liệu không mang tính đại diện, đặc trưng thiếu thông tin, mô hình quá đơn giản luôn dưới khớp dữ liệu huấn luyện, và các mô hình quá phức tạp tới mức quá khớp dữ liệu.</p>
+  </div>
+</details>
+
+---
+
+#### 15. Nếu mô hình của bạn hoạt động tốt trên dữ liệu huấn luyện nhưng lại khái quát kém đối với dữ liệu mới, điều gì đang xảy ra ? Bạn có thể liệt kê ba giải pháp khả thi cho vấn đề này không ?
+
+<details>
+  <summary style="display: inline-block; padding: 6px 12px; font-size: 14px; font-weight: 400; line-height: 1.5; color: var(--button-text-color, #fff); background-color: var(--button-bg-color, #28a745); border: 1px solid transparent; border-radius: 4px; cursor: pointer;">Xem đáp án</summary>
+  <div style="margin-top: 10px; padding: 10px; background-color: var(--answer-bg-color, #e9f7ef); border-left: 5px solid var(--answer-border-color, #28a745); color: var(--answer-text-color, #000);">
+    <p> <strong>🤖 Đáp án: </strong> Nếu một mô hình hoạt động tốt trên tập huấn luyện nhưng khái quát kém trên dữ liệu mới, mô hình đó nhiều khả năng là đã quá khớp dữ liệu huấn luyện (hoặc ta cực kỳ may mắn trên tập huấn luyện). Các giải pháp khả dĩ cho việc quá khớp gồm thu thập thêm dữ liệu, đơn giản hóa mô hình (chọn một thuật toán đơn giản hơn, giảm số lượng tham số hoặc đặc trưng, hoặc điều chuẩn mô hình), hoặc giảm mức độ nhiễu trong dữ liệu huấn luyện.</p>
+  </div>
+</details>
+
+---
+
+#### 16. Tập kiểm tra là gì và tại sao bạn lại muốn sử dụng nó ?
+
+<details>
+  <summary style="display: inline-block; padding: 6px 12px; font-size: 14px; font-weight: 400; line-height: 1.5; color: var(--button-text-color, #fff); background-color: var(--button-bg-color, #28a745); border: 1px solid transparent; border-radius: 4px; cursor: pointer;">Xem đáp án</summary>
+  <div style="margin-top: 10px; padding: 10px; background-color: var(--answer-bg-color, #e9f7ef); border-left: 5px solid var(--answer-border-color, #28a745); color: var(--answer-text-color, #000);">
+    <p> <strong>🤖 Đáp án: </strong> Một tập kiểm tra được dùng để ước lượng mức độ lỗi khái quát mà một mô hình sẽ có trên các mẫu dữ liệu mới, trước khi mô hình được chạy trong thực tế.</p>
+  </div>
+</details>
+
+---
+
+#### 17. Mục đích của tập kiểm định là gì ?
+
+<details>
+  <summary style="display: inline-block; padding: 6px 12px; font-size: 14px; font-weight: 400; line-height: 1.5; color: var(--button-text-color, #fff); background-color: var(--button-bg-color, #28a745); border: 1px solid transparent; border-radius: 4px; cursor: pointer;">Xem đáp án</summary>
+  <div style="margin-top: 10px; padding: 10px; background-color: var(--answer-bg-color, #e9f7ef); border-left: 5px solid var(--answer-border-color, #28a745); color: var(--answer-text-color, #000);">
+    <p> <strong>🤖 Đáp án: </strong> Một tập kiểm định được dùng để so sánh mô hình. Nó cho phép ta lựa chọn mô hình tốt nhất và tinh chỉnh các siêu tham số.</p>
+  </div>
+</details>
+
+---
+
+#### 18. Tập huấn luyện - phát triển là gì, khi nào bạn cần sử dụng và làm thế nào để sử dụng nó ?
+
+
+<details>
+  <summary style="display: inline-block; padding: 6px 12px; font-size: 14px; font-weight: 400; line-height: 1.5; color: var(--button-text-color, #fff); background-color: var(--button-bg-color, #28a745); border: 1px solid transparent; border-radius: 4px; cursor: pointer;">Xem đáp án</summary>
+  <div style="margin-top: 10px; padding: 10px; background-color: var(--answer-bg-color, #e9f7ef); border-left: 5px solid var(--answer-border-color, #28a745); color: var(--answer-text-color, #000);">
+    <p> <strong>🤖 Đáp án: </strong> Tập huấn luyện–phát triển thì được dùng khi có nguy cơ dữ liệu huấn luyện, kiểm định và kiểm tra không khớp với nhau (điều mà ta nên giảm thiểu càng ít càng tốt và làm nó càng gần với dữ liệu sẽ gặp trong thực tế càng tốt). Tập huấn luyện–phát triển là một phần của tập huấn luyện được ta giữ lại (mô hình không huấn luyện trên đó). Mô hình sau khi được huấn luyện trên phần còn lại của tập huấn luyện sẽ được đánh giá trên cả tập huấn luyện–phát triển và tập kiểm định. Nếu mô hình hoạt động tốt trên tập huấn luyện nhưng không tốt trên tập huấn luyện–phát triển, khi đó mô hình có khả năng là đã quá khớp dữ liệu huấn luyện. Nếu nó hoạt động tốt trên cả tập huấn luyện và huấn luyện–phát triển, nhưng không tốt trên tập kiểm định, khi đó có khả năng là dữ liệu huấn luyện quá khác biệt so với dữ liệu kiểm định và kiểm tra, và ta nên cố gắng cải thiện dữ liệu huấn luyện để giống với dữ liệu kiểm định và kiểm tra hơn.</p>
+  </div>
+</details>
+
+---
+
+#### 19. Vấn đề gì có thể xảy ra nếu bạn tinh chỉnh siêu tham số bằng tập kiểm tra ?
+
+
+<details>
+  <summary style="display: inline-block; padding: 6px 12px; font-size: 14px; font-weight: 400; line-height: 1.5; color: var(--button-text-color, #fff); background-color: var(--button-bg-color, #28a745); border: 1px solid transparent; border-radius: 4px; cursor: pointer;">Xem đáp án</summary>
+  <div style="margin-top: 10px; padding: 10px; background-color: var(--answer-bg-color, #e9f7ef); border-left: 5px solid var(--answer-border-color, #28a745); color: var(--answer-text-color, #000);">
+    <p> <strong>🤖 Đáp án: </strong> Nếu bạn tinh chỉnh siêu tham số trên tập kiểm tra, tập kiểm tra sẽ có khả năng bị quá khớp, và lỗi khái quát đo được sẽ làm bạn quá lạc quan (bạn có thể sẽ triển khai một mô hình hoạt động tệ hơn so với dự kiến).</p>
+  </div>
+</details>
+
+
+
+## 5. Tài Liệu Tham Khảo.
 
 - [1] [Giới thiệu về Machine Learning](https://machinelearningcoban.com/2016/12/26/introduce/)
 - [2] [Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow](https://www.oreilly.com/library/view/hands-on-machine-learning/9781492032632/)

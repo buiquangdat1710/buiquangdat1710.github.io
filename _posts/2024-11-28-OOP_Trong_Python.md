@@ -377,6 +377,8 @@ Lưu ý khi sử dụng toán tử chồng
   - Ví dụ: Nếu toán tử + không thực hiện cộng dồn mà lại xóa giá trị, sẽ gây nhầm lẫn.
 - Kiểm tra kiểu dữ liệu:
   - Đảm bảo kiểm tra kiểu của đối tượng đầu vào để tránh lỗi runtime.
+
+
 ```python
 def __add__(self, other):
     if not isinstance(other, Vector):

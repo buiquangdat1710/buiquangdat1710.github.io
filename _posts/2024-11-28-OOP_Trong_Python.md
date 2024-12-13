@@ -2,7 +2,7 @@
 title: "OOP Trong Python"
 date: 2024-11-28 00:00:00  + 0800
 categories: [Giáo Trình Dạy AI ProPTIT]
-tags: [proptit]
+tags: [python]
 ---
 ---
 

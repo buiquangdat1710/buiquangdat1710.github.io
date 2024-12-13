@@ -1,8 +1,8 @@
 ---
 title: "Matplotlib cơ bản"
-date: 2024-12-12 00:00:00  + 0800
+date: 2024-12-14 00:00:00  + 0800
 categories: [Giáo Trình Dạy AI ProPTIT]
-tags: [proptit]
+tags: [matplotlib]
 ---
 ---
 

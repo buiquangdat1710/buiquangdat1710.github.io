@@ -1,5 +1,5 @@
 ---
-title: "Pandas cơ bản"
+title: "Pandas Cơ Bản"
 date: 2024-12-12 00:00:00  + 0800
 categories: [Giáo Trình Dạy AI ProPTIT]
 tags: [pandas]

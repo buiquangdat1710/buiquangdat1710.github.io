@@ -78,14 +78,14 @@ help()
 >
 >help> 
 
-Muốn thoát khỏi chế độ con trỏ trợ giúp help> chỉ cần bấm Enter. NHư ta có thể thấy ở trên, cú pháp đầy đủ của lệnh print là:
+Muốn thoát khỏi chế độ con trỏ trợ giúp help> chỉ cần bấm Enter. Như ta có thể thấy ở trên, cú pháp đầy đủ của lệnh print là:
 
 `print(value1, value2,..., sep = <ký tự ngăn cách>, end = <kí tự kết thức>, file = <đối tượng tệp ra>, flush = true/false)`
 
 Trong đó:
-- value1, value2,... là các giá trị mà ta muốn in ra, có thể là số hoặc xâu.
-- sep là kí tự ngăn cách giữa các value1, value2,..., mặc định là giá trị này là dấu cách, tức sep = " ".
-- end = kí tự kết thúc của câu, mặc định là kí tự xuống dòng, tức end = "\n".
+- `value1`, `value2`,... là các giá trị mà ta muốn in ra, có thể là số hoặc xâu.
+- `sep` là kí tự ngăn cách giữa các `value1`, `value2`,..., mặc định là giá trị này là dấu cách, tức sep = " ".
+- end = kí tự kết thúc của câu, mặc định là kí tự xuống dòng, tức `end = "\n"`.
 - Các tham biến file và flush chúng ta sẽ tìm hiểu sau.
 
 Ví dụ về in ra ngày tháng đúng format chuẩn:
@@ -674,7 +674,7 @@ Hạn chế:
 - Khó đọc hơn so với các hàm định nghĩa thông thường bằng `def` khi code phức tạp.
 
 ## 11. Kiểu dữ liệu List
-**List** (danh sách) là một trong các kiểu dữ liệu quan trọng nhất của Python. Khác với hầu hết các ngôn ngữ lập trình bậc cao khác, **list** trong Python có rất nhiều tính chất đặc biệt hay và thú vị. Song hành với list, trong Python coòncó 2 kiểu dữ liệu tương tụựkhác là **tuple** và **range**. 
+**List** (danh sách) là một trong các kiểu dữ liệu quan trọng nhất của Python. Khác với hầu hết các ngôn ngữ lập trình bậc cao khác, **list** trong Python có rất nhiều tính chất đặc biệt hay và thú vị. Song hành với list, trong Python còn có 2 kiểu dữ liệu tương tự khác là **tuple** và **range**. 
 **List** được hiểu là một dãy các giá trị được viết trong dấu ngoặc vuông, việc khởi tạo một list hay danh sách rất đơn giản, ví dụ như sau:
 
 ```python
@@ -686,7 +686,7 @@ print(type(a))
 Giống như các ngôn ngữ lập trình khác, có thể truy cập đến từng phần tử của list. Các phần tử của danh sách sẽ được đánh số từ 0. Ví dụ:
 
 ```python
-print(a[10],a[3])
+print(a[0],a[3])
 ```
 > 10 8
 

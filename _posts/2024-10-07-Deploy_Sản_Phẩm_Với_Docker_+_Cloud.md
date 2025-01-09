@@ -1,7 +1,7 @@
 ---
 title: "Deploy Sản Phẩm Với Docker + Cloud"
 date: 2024-10-07 00:00:00  + 0800
-categories: [AI Production]
+categories: [AI Engineer]
 tags: [docker, cloud]
 ---
 ---

@@ -1,7 +1,7 @@
 ---
 title: "Làm Quen Với LangChain"
 date: 2024-10-20 00:00:00  + 0800
-categories: [AI Production]
+categories: [AI Engineer]
 tags: [langchain]
 ---
 ---

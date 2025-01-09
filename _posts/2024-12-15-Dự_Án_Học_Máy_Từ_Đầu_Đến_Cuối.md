@@ -1,7 +1,7 @@
 ---
 title: "Dự Án Học Máy Từ Đầu Đến Cuối"
 date: 2024-12-14 00:00:00  + 0800
-categories: [Giáo Trình Dạy AI ProPTIT]
+categories: [Machine Learning]
 tags: [machine learning]
 ---
 ---

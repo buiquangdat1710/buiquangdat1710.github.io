@@ -1,7 +1,7 @@
 ---
 title: "Crawl Dữ Liệu"
 date: 2024-10-13 00:00:00  + 0800
-categories: [AI Production]
+categories: [AI Engineer]
 tags: [crawl data]
 ---
 ---

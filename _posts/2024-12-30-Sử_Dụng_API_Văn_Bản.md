@@ -1,7 +1,7 @@
 ---
 title: "Sử Dụng API Văn Bản"
 date: 2024-12-30 00:00:00  + 0800
-categories: [AI Production]
+categories: [AI Engineer]
 tags: [api]
 ---
 ---

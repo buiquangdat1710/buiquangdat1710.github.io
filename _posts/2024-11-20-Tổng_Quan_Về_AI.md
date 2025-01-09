@@ -1,7 +1,7 @@
 ---
 title: "Tổng Quan Về AI"
 date: 2024-11-20 00:00:00  + 0800
-categories: [Giáo Trình Dạy AI ProPTIT]
+categories: [Machine Learning]
 tags: [proptit]
 ---
 ---

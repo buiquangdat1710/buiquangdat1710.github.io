@@ -1,7 +1,7 @@
 ---
 title: "Làm Web Bằng StreamLit"
 date: 2025-01-03 00:00:00  + 0800
-categories: [AI Production]
+categories: [AI Engineer]
 tags: [streamlit]
 ---
 ---

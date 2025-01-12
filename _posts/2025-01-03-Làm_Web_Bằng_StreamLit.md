@@ -611,7 +611,8 @@ if prompt := st.chat_input("What is up?"):
 
 - Ở trên, chúng ta đã thay thế danh sách các phản hồi bằng một lệnh gọi đến `OpenAI().chat.completions.create`. Chúng ta đã thiết lập `stream=True` để truyền trực tiếp các phản hồi đến giao diện người dùng. Trong lệnh gọi `API`, chúng ta truyền tên mô hình đã được cố định trong `session state` và lịch sử trò chuyện dưới dạng danh sách các tin nhắn. Chúng ta cũng truyền vai trò (`role`) và nội dung (`content`) của mỗi tin nhắn trong lịch sử trò chuyện. Cuối cùng, `OpenAI` trả về một luồng các phản hồi (được chia thành các đoạn nhỏ chứa các token), mà chúng ta sẽ duyệt qua và hiển thị từng đoạn. Dưới đây là full code:
 
-```pythofrom openai import OpenAI
+```python
+from openai import OpenAI
 import streamlit as st
 
 st.title("ChatGPT-like clone")

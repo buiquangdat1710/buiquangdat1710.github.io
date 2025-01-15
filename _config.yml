@@ -17,7 +17,7 @@ timezone:
 
 title: Dat's Blog # the main title
 
-tagline: My Personal Blog # it will display as the subtitle
+tagline: AI Is All You Need # it will display as the subtitle
 
 description: >- # used by seo meta and the atom feed
   Blog in AI: Machine Learning, Deep Learning, NLP, CV, Gen AI.

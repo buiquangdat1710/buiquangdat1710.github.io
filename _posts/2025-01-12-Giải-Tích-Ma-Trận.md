@@ -513,7 +513,7 @@ $$
 \end{eqnarray}
 $$
 
-- Trong đó $O()$ là {Big O notation}. Từ đó, nếu xấp xỉ đạo hàm bằng công thức đầu tiên, sai số sẽ là $O(\varepsilon)$. Trong khi đó, nếu xấp xỉ đạo hàm bằng công thức thứ hai, sai số sẽ là $O(\varepsilon^2)$. Khi $\varepsilon$ rất nhỏ, $O(\varepsilon^2) \llO(\varepsilon)$, tức cách đánh giá sử dụng công thức~\eqref{eqn:numgrdef2} có sai số nhỏ hơn, và vì vậy nó được sử dụng phổ biến hơn.
+- Trong đó $O()$ là {Big O notation}. Từ đó, nếu xấp xỉ đạo hàm bằng công thức đầu tiên, sai số sẽ là $O(\varepsilon)$. Trong khi đó, nếu xấp xỉ đạo hàm bằng công thức thứ hai, sai số sẽ là $O(\varepsilon^2)$. Khi $\varepsilon$ rất nhỏ, $O(\varepsilon^2) \ll O(\varepsilon)$, tức cách đánh giá sử dụng công thức dưới có sai số nhỏ hơn, và vì vậy nó được sử dụng phổ biến hơn.
 
 #### Bằng hình học
 

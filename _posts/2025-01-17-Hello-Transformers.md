@@ -19,7 +19,7 @@ tags: [transfomers]
 
 
 - Vào năm 2017, các nhà nghiên cứu tại Google đã xuất bản một bài báo đề xuất một kiến trúc mạng nơ-ron mới để mô hình hóa trình tự ([paper](https://arxiv.org/pdf/1706.03762)). Được đặt tên là `Transformer`, kiến trúc này vượt trội hơn các Recurrent Neural Wetworks (RNN) trong các tác vụ dịch máy, cả về chất lượng dịch thuật và chi phí đào tạo.
-- Cùng lúc đó, có một phương pháp học chuyển tiếp hiệu quả (transfer learning) có tên là `ULMFiT` ([paper](https://arxiv.org/abs/1801.06146)) cho thấy rằng việc đào tạo Long Short-Term Memory (LSTM) Networks trên một kho dữ liệu rất lớn và đa dạng có thể tạo ra một mô hình phân loại văn bản đạt ngưỡng state-of-the-art (SOTA) với ít dữ liệu được gắn nhãn sẵn.
+- Cùng lúc đó, có một phương pháp học chuyển giao hiệu quả (transfer learning) có tên là `ULMFiT` ([paper](https://arxiv.org/abs/1801.06146)) cho thấy rằng việc đào tạo Long Short-Term Memory (LSTM) Networks trên một kho dữ liệu rất lớn và đa dạng có thể tạo ra một mô hình phân loại văn bản đạt ngưỡng state-of-the-art (SOTA) với ít dữ liệu được gắn nhãn sẵn.
 - Những tiến bộ này là chất xúc tác cho hai trong số những transformers tiếng nhất hiện nay:  `Generative Pretrained Transformer` ([GPT](https://openai.com/index/language-unsupervised/)) và `Bidirectional Encoder Representations from Transformers` ([BERT](https://arxiv.org/abs/1810.04805)). Bằng cách kết hợp kiến trúc Transformer với học không giám sát, các mô hình này không cần phải train từ những task cụ thể từ đầu và phá vỡ hầu hết mọi benchmark trong NLP với khoảng cách đáng kể. Kể từ khi phát hành GPT và BERT, rât nhiều các mô hình dựa trên kiến trúc transformer đã xuất hiện; dòng thời gian của các kiến trúc nổi bật nhất được thể hiện trong Hình 1-1.
 
 ![anh](./image/273.png)
@@ -27,7 +27,7 @@ tags: [transfomers]
 - Nhưng có vẻ chúng ta đang đi hơi nhanh. Để hiểu điều gì mới lạ về transformer, trước tiên chúng ta cần phải tìm hiểu:
 1. The encoder-decoder framework.
 2. Cơ chế chú ý.
-3. Học chuyển tiếp (Transfer learning).
+3. học chuyển giao (Transfer learning).
 
 - Trong blog này, chúng ta sẽ giới thiệu các khái niệm cốt lõi làm nền tảng cho sự phổ biến của transformer, xem xét một số task mà chúng vượt trội và kết thúc bằng cách xem xét hệ sinh thái của Hugging Face gồm các công cụ và thư viện.
 
@@ -63,18 +63,18 @@ tags: [transfomers]
 
 ![anh](./image/278.png)
 
-- Trong bài báo gốc của Transformer, mô hình dịch thuật được đào tạo từ đầu trên một kho dữ liệu lớn các cặp câu bằng nhiều ngôn ngữ khác nhau. Tuy nhiên, trong nhiều ứng dụng thực tế của NLP, chúng ta không có quyền truy cập vào một lượng lớn dữ liệu văn bản được gắn nhãn để đào tạo các mô hình của chúng ta. Tiếp theo chúng ta sẽ nói về học chuyển tiếp (transfer learning)
+- Trong bài báo gốc của Transformer, mô hình dịch thuật được đào tạo từ đầu trên một kho dữ liệu lớn các cặp câu bằng nhiều ngôn ngữ khác nhau. Tuy nhiên, trong nhiều ứng dụng thực tế của NLP, chúng ta không có quyền truy cập vào một lượng lớn dữ liệu văn bản được gắn nhãn để đào tạo các mô hình của chúng ta. Tiếp theo chúng ta sẽ nói về học chuyển giao (transfer learning)
 
-## 3. Học chuyển tiếp trong NLP
+## 3. học chuyển giao trong NLP
 
-- Ngày nay, cách làm phổ biến trong thị giác máy tính là sử dụng học chuyển tiếp để đào tạo một mạng nơ-ron tích chập như ResNet trên một nhiệm vụ, sau đó điều chỉnh nó hoặc tinh chỉnh nó trên một nhiệm vụ mới. Điều này cho phép mạng sử dụng kiến thức học được từ nhiệm vụ ban đầu. Về mặt kiến trúc, điều này liên quan đến việc tách mô hình thành hai phần: một body và một head, trong đó head là một mạng lưới dành riêng cho nhiệm vụ cụ thể. Trong quá trình đào tạo, trọng số của body học các đặc điểm hữu ích của nhiệm vụ trước đó và các trọng số này được sử dụng để khởi tạo một mô hình mới cho nhiệm vụ mới. So với học có giám sát truyền thống, cách tiếp cận này thường tạo ra các mô hình chất lượng cao có thể được train hiệu quả hơn nhiều trên nhiều nhiệm vụ downstream và với ít dữ liệu được gắn nhãn hơn nhiều. So sánh hai cách tiếp cận được thể hiện trong Hình 1-7.
+- Ngày nay, cách làm phổ biến trong thị giác máy tính là sử dụng học chuyển giao để đào tạo một mạng nơ-ron tích chập như ResNet trên một nhiệm vụ, sau đó điều chỉnh nó hoặc tinh chỉnh nó trên một nhiệm vụ mới. Điều này cho phép mạng sử dụng kiến thức học được từ nhiệm vụ ban đầu. Về mặt kiến trúc, điều này liên quan đến việc tách mô hình thành hai phần: một body và một head, trong đó head là một mạng lưới dành riêng cho nhiệm vụ cụ thể. Trong quá trình đào tạo, trọng số của body học các đặc điểm hữu ích của nhiệm vụ trước đó và các trọng số này được sử dụng để khởi tạo một mô hình mới cho nhiệm vụ mới. So với học có giám sát truyền thống, cách tiếp cận này thường tạo ra các mô hình chất lượng cao có thể được train hiệu quả hơn nhiều trên nhiều nhiệm vụ downstream và với ít dữ liệu được gắn nhãn hơn nhiều. So sánh hai cách tiếp cận được thể hiện trong Hình 1-7.
 
 ![anh](./image/279.png)
 
 - Trong thị giác máy tính, các mô hình đầu tiên sẽ được train trên các bộ dữ liệu quy mô lớn như ImageNet, chứa hàng triệu hình ảnh. Quá trình này được gọi là pretraining và mục đích chính của nó là dạy cho mô hình các tính năng cơ bản của hình ảnh, chẳng hạn như cạnh hoặc màu sắc. Các mô hình được đào tạo trước này sau đó có thể được tinh chỉnh theo một nhiệm vụ downstream như phân loại các loài hoa. Các mô hình được tinh chỉnh thường đạt được độ chính xác cao hơn so với các mô hình được train từ đầu trên cùng một lượng dữ liệu được gắn nhãn.
 
-- Mặc dù học chuyển tiếp đã trở thành cách tiếp cận tiêu chuẩn trong thị giác máy tính, nhưng trong nhiều năm, người ta không rõ học chuyển tiếp tương tự cho NLP là gì. Do đó, các ứng dụng NLP thường yêu cầu một lượng lớn dữ liệu được gắn nhãn để đạt được hiệu suất cao. Và ngay cả thế, hiệu suất của các mô hình NLP đó cũng không thể so sánh với những gì mô hình khác đạt được trong lĩnh vực thị giác máy tính.
-- Vào năm 2017 và 2018, một số nhóm nghiên cứu đã đề xuất các phương pháp tiếp cận mới đã làm cho học chuyển tiếp hoạt động trên NLP. Nó bắt đầu từ cái nhìn sâu sắc từ các nhà nghiên cứu tại OpenAI, những người đã đạt được hiệu suất mạnh mẽ trong nhiệm vụ phân loại cảm xúc bằng cách sử dụng các tính năng được trích xuất từ unsupervised pretraining ([paper](https://arxiv.org/abs/1704.01444)). Tiếp theo là ULMFiT, giới thiệu một framework chung để điều chỉnh các mô hình LSTM được đào tạo trước cho các nhiệm vụ khác nhau (Một công trình gần đây là ELMo (Embeddings from Language Models), cho thấy LSTM đào tạo trước có thể tạo ra các word embeddings chất lượng cao cho các nhiệm vụ downstream).
+- Mặc dù học chuyển giao đã trở thành cách tiếp cận tiêu chuẩn trong thị giác máy tính, nhưng trong nhiều năm, người ta không rõ học chuyển giao tương tự cho NLP là gì. Do đó, các ứng dụng NLP thường yêu cầu một lượng lớn dữ liệu được gắn nhãn để đạt được hiệu suất cao. Và ngay cả thế, hiệu suất của các mô hình NLP đó cũng không thể so sánh với những gì mô hình khác đạt được trong lĩnh vực thị giác máy tính.
+- Vào năm 2017 và 2018, một số nhóm nghiên cứu đã đề xuất các phương pháp tiếp cận mới đã làm cho học chuyển giao hoạt động trên NLP. Nó bắt đầu từ cái nhìn sâu sắc từ các nhà nghiên cứu tại OpenAI, những người đã đạt được hiệu suất mạnh mẽ trong nhiệm vụ phân loại cảm xúc bằng cách sử dụng các tính năng được trích xuất từ unsupervised pretraining ([paper](https://arxiv.org/abs/1704.01444)). Tiếp theo là ULMFiT, giới thiệu một framework chung để điều chỉnh các mô hình LSTM được đào tạo trước cho các nhiệm vụ khác nhau (Một công trình gần đây là ELMo (Embeddings from Language Models), cho thấy LSTM đào tạo trước có thể tạo ra các word embeddings chất lượng cao cho các nhiệm vụ downstream).
 - Như minh họa trong Hình 1-8, ULMFiT bao gồm ba bước chính:
 1. **Pretraining:** Mục tiêu train ban đầu khá đơn giản: dự đoán từ tiếp theo dựa trên các từ trước đó. Nhiệm vụ này được gọi là mô hình hóa ngôn ngữ (language modeling). Sự hay ho của cách tiếp cận này nằm ở chỗ không cần dữ liệu được gắn nhãn và người ta có thể sử dụng văn bản có sẵn phong phú từ các nguồn như Wikipedia (Điều này đúng với tiếng Anh hơn là đối với hầu hết các ngôn ngữ trên thế giới, nơi có thể khó khăn để có được một kho dữ liệu lớn văn bản được số hóa. Tìm cách thu hẹp khoảng cách này là một lĩnh vực tích cực của nghiên cứu và hoạt động NLP).
 2. **Domain adaptation:** Một khi mô hình ngôn ngữ được đào tạo trước trên một kho dữ liệu quy mô lớn, bước tiếp theo là điều chỉnh nó cho phù hợp với kho dữ liệu mà bạn quan tâm (ví dụ: Mô hình được train trên Wikipedia và dữ liệu mà bạn quan tâm là các bài đánh giá phim trên IMDb, như trong Hình 1-8). Giai đoạn này vẫn sử dụng mô hình ngôn ngữ, nhưng bây giờ mô hình phải dự đoán từ tiếp theo trong kho dữ liệu mà bạn đang quan tâm.
@@ -82,7 +82,7 @@ tags: [transfomers]
 
 ![anh](./image/280.png)
 
-- Bằng cách giới thiệu một framework khả thi để pretraining và học chuyển tiếp (transfer learning) trong NLP, ULMFiT như một bệ phóng làm cho kiến trúc transformers cất cánh. Vào năm 2018, hai kiến trúc transformers kết hợp sự tự chú ý (self-attention) với học chuyển tiếp được ra mắt:
+- Bằng cách giới thiệu một framework khả thi để pretraining và học chuyển giao (transfer learning) trong NLP, ULMFiT như một bệ phóng làm cho kiến trúc transformers cất cánh. Vào năm 2018, hai kiến trúc transformers kết hợp sự tự chú ý (self-attention) với học chuyển giao được ra mắt:
 
   - **GPT:** Chỉ sử dụng phần bộ giải mã (decoder) của kiến trúc Transformer và cách tiếp cận mô hình hóa ngôn ngữ (language modeling) tương tự như ULMFiT. GPT đã được pretrain trên BookCorpus ([paper](https://arxiv.org/abs/1506.06724)) bao gồm 7.000 cuốn sách chưa xuất bản thuộc nhiều thể loại khác nhau bao gồm Phiêu lưu, Giả tưởng và Lãng mạn.
   - **BERT:** Sử dụng phần bộ mã hóa (encoder) của kiến trúc Transformer và một hình thức mô hình ngôn ngữ đặc biệt được gọi là mô hình ngôn ngữ mặt nạ (masked language modeling). Mục tiêu của masked language modeling là dự đoán các từ được che giấu ngẫu nhiên trong một văn bản. Ví dụ: cho một câu như "Tôi đã nhìn vào [MASK] của tôi và thấy rằng [MASK] đã muộn", mô hình cần dự đoán các từ có khả năng nhất cho các từ được che giấu được ký hiệu bằng [MASK]. BERT đã được đào tạo trước trên BookCorpus và Wikipedia tiếng Anh.
@@ -253,7 +253,7 @@ print(outputs[0]['generated_text'])
 
 ### The Hugging Face Hub
 
-- Như đã nêu trước đó, học chuyển tiếp là một trong những yếu tố quan trọng thúc đẩy sự thành công của transformers vì nó cho phép sử dụng lại các mô hình được đào tạo trước cho các nhiệm vụ mới. Do đó, điều quan trọng là có thể tải các mô hình được đào tạo trước một cách nhanh chóng và chạy thử nghiệm với chúng.
+- Như đã nêu trước đó, học chuyển giao là một trong những yếu tố quan trọng thúc đẩy sự thành công của transformers vì nó cho phép sử dụng lại các mô hình được đào tạo trước cho các nhiệm vụ mới. Do đó, điều quan trọng là có thể tải các mô hình được đào tạo trước một cách nhanh chóng và chạy thử nghiệm với chúng.
 - Hugging Face Hub lưu trữ gần 1.5 triệu mô hình có sẵn miễn phí. Như trong hình dưới, có các filters cho các tasks, framework, dataset, v.v. được thiết kế để giúp bạn điều hướng Hub và nhanh chóng tìm thấy các công cụ bạn muốn. Như chúng ta đã thấy với `pipeline`, việc tải một mô hình trong code của bạn thực sự chỉ cần một dòng code. Điều này làm cho việc thử nghiệm với một loạt các mô hình trở nên đơn giản và cho phép bạn tập trung vào các phần khác của dự án.
 
 ![anh](./image/285.png)
@@ -290,7 +290,7 @@ print(outputs[0]['generated_text'])
 - Trong blog này, chúng ta đã có cái nhìn thoáng qua về một loạt các tác vụ NLP có thể được thực hiện với các mô hình transformers. Với sự truyền thông mạnh mẽ, có vẻ như khả năng của mô hình này là vô hạn. Tuy nhiên, bất chấp tính hữu ích của chúng, transformers còn lâu mới là một mô hình chất lượng đúng nghĩa. Dưới đây là một số thách thức liên quan đến chúng mà chúng ta sẽ khám phá:
 
 1. **Language:**  Nghiên cứu NLP bị chi phối bởi ngôn ngữ tiếng Anh. Có một số mô hình cho các ngôn ngữ khác, nhưng khó tìm thấy các mô hình được đào tạo trước cho các ngôn ngữ hiếm hoặc ít tài nguyên.
-2. **Data availability**: Mặc dù chúng ta có thể sử dụng học chuyển tiếp để giảm đáng kể lượng dữ liệu được gắn nhãn mà các mô hình của chúng ta cần, nhưng nó vẫn còn quá ít để so sánh với dữ liệu được gắn nhãn mà con người cần để thực hiện nhiệm vụ đó.
+2. **Data availability**: Mặc dù chúng ta có thể sử dụng học chuyển giao để giảm đáng kể lượng dữ liệu được gắn nhãn mà các mô hình của chúng ta cần, nhưng nó vẫn còn quá ít để so sánh với dữ liệu được gắn nhãn mà con người cần để thực hiện nhiệm vụ đó.
 3. **Working with long documents:** Self-attention hoạt động cực kỳ tốt trên các văn bản dài đoạn văn, nhưng nó trở nên rất tốn kém khi chúng ta chuyển sang các văn bản dài hơn nữa như toàn bộ tài liệu.
 4. **Opacity**: Cũng như các mô hình học sâu khác, transformers ở một mức độ lớn là mờ đục (khó hiểu tại sao mô hình lại hoạt động như vậy). Thật khó hoặc không thể làm sáng tỏ "tại sao" một mô hình đưa ra một dự đoán nhất định. Đây là một thách thức đặc biệt khó khăn khi các mô hình này được triển khai để đưa ra các quyết định quan trọng.
 5. **Bias**: Các mô hình Transformer chủ yếu được đào tạo trước trên dữ liệu văn bản từ internet. Điều này in những thông tin phản cảm, sai lệch có trong dữ liệu vào các mô hình. Đảm bảo rằng những điều này không phân biệt chủng tộc, phân biệt giới tính hoặc những thông tin tệ hơn là một nhiệm vụ đầy thách thức.

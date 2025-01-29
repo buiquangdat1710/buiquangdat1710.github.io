@@ -2,7 +2,7 @@
 title: "Text Classification"
 date: 2025-01-18 00:00:00  + 0800
 categories: [Natural Language Processing with Transformers Book]
-tags: [transfomers]
+tags: [nlp]
 ---
 ---
 

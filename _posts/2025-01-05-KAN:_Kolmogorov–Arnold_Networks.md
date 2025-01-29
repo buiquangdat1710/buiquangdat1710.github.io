@@ -1,7 +1,7 @@
 ---
 title: "KAN: Kolmogorov–Arnold Networks"
 date: 2025-01-05 00:00:00  + 0800
-categories: [AI Researcher]
+categories: [AI Research]
 tags: [kan]
 ---
 ---

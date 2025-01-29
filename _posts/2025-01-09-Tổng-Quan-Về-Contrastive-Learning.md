@@ -1,7 +1,7 @@
 ---
 title: "Tổng quan về Contrastive Learning"
 date: 2025-01-09 00:00:00  + 0800
-categories: [AI Researcher]
+categories: [AI Research]
 tags: [contrastive learning]
 ---
 ---

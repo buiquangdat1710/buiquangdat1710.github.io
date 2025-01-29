@@ -2,7 +2,7 @@
 title: "Transformer Anatomy"
 date: 2025-01-19 00:00:00  + 0800
 categories: [Natural Language Processing with Transformers Book]
-tags: [transfomers]
+tags: [nlp]
 ---
 ---
 

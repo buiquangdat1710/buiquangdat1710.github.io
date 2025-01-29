@@ -2,7 +2,7 @@
 title: "Xác Suất Thống Kê"
 date: 2025-01-16 00:00:00  + 0800
 categories: [Machine Learning]
-tags: [linear]
+tags: [statistical probability]
 ---
 ---
 
